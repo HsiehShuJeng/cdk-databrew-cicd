@@ -6,10 +6,18 @@ const project = new AwsCdkConstructLibrary({
   authorName: 'Shu-Jeng Hsieh',
   authorAddress: 'https://fantasticsie.medium.com/',
   keywords: [
+    'aws-cloudwatch',
     'aws-codecommit',
+    'aws-codepipeline',
+    'aws-databrew',
+    'aws-lambda',
+    'cicd',
     'serverless',
     'scott.hsieh',
   ],
+  catalog: {
+    twitter: 'fantasticHsieh',
+  },
 
   cdkVersion: '1.106.1',
   defaultReleaseBranch: 'main',
@@ -27,11 +35,11 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-codecommit',
     '@aws-cdk/aws-codepipeline',
     '@aws-cdk/aws-codepipeline-actions',
-    '@aws-cdk/aws-s3'
+    '@aws-cdk/custom-resources',
+    '@aws-cdk/aws-s3',
   ],
   cdkAssert: true,
   cdkVersionPinning: false, // see https://www.matthewbonig.com/2021/04/06/automating-construct-publishing/
-
   devDeps: [
     'esbuild',
     'source-map-support',
@@ -129,7 +137,8 @@ const pythonDemoExclustions = [
   '.pytest_cache',
   '.env',
   '.venv',
-  '*.egg-info'];
+  '*.egg-info',
+];
 const javaDemoExclustions = [
   '.classpath.txt',
   'target/',
@@ -138,7 +147,8 @@ const javaDemoExclustions = [
   '.idea',
   '.settings',
   '.vscode/',
-  '*.iml']
+  '*.iml',
+];
 const commonExclusions = ['cdk.context.json', 'yarn-error.log', 'cdk.out', '.cdk.staging'];
 project.npmignore.exclude(...commonExclusions);
 project.gitignore.exclude(...commonExclusions);
