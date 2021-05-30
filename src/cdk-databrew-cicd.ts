@@ -3,8 +3,10 @@ import * as iam from '@aws-cdk/aws-iam';
 import * as codecommit from '@aws-cdk/aws-codecommit';
 import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
+import * as cr from '@aws-cdk/custom-resources';
+import * as logs from '@aws-cdk/aws-logs';
 import * as s3 from '@aws-cdk/aws-s3';
-import { PreProductionLambda, ProductionLambda } from './cdk-databrew-lambda';
+import { FirstCommitHandler, PreProductionLambda, ProductionLambda } from './cdk-databrew-lambda';
 
 
 
@@ -113,8 +115,20 @@ export class DataBrewCodePipeline extends cdk.Construct {
         // create a CodeCommit repo
         const codeCommitRepo = new codecommit.Repository(this, 'DataBrewRepository', {
             repositoryName: 'DataBrew-Recipes-Repo',
-            description: 'Some description.', // optional property
         });
+        const firstCommitHelper = new FirstCommitHandler(this, 'FirstCommitLambda', {
+            codeCommitRepoArn: codeCommitRepo.repositoryArn,
+            repoName: codeCommitRepo.repositoryName,
+            branchName: this.branchName
+        });
+        const onEvent = firstCommitHelper.function;
+        const lambdaInvoker = new cr.Provider(this, 'LambdaInvoker', {
+            onEventHandler: onEvent,
+            logRetention: logs.RetentionDays.FIVE_DAYS,
+        });
+        new cdk.CustomResource(this, 'CodeCommitCustomResource', { 
+            serviceToken: lambdaInvoker.serviceToken ,
+            resourceType: 'Custom::LambdaInvoker'});
 
         // create a CodePipeline pipeline
         const pipelineRole = new CodePipelineIamRole(this, 'DataBrewCodePipelineRole', {

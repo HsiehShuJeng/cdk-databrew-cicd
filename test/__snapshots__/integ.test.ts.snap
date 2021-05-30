@@ -39,6 +39,18 @@ Object {
       "Description": "S3 key for asset version \\"67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24\\"",
       "Type": "String",
     },
+    "AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cArtifactHash627DAAA7": Object {
+      "Description": "Artifact hash for asset \\"c691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c\\"",
+      "Type": "String",
+    },
+    "AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43": Object {
+      "Description": "S3 bucket for asset \\"c691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c\\"",
+      "Type": "String",
+    },
+    "AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyDD9AE9E7": Object {
+      "Description": "S3 key for asset version \\"c691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c\\"",
+      "Type": "String",
+    },
     "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85ArtifactHashD3597BC8": Object {
       "Description": "Artifact hash for asset \\"e80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85\\"",
       "Type": "String",
@@ -254,6 +266,19 @@ Object {
         ],
       },
       "Type": "AWS::CodePipeline::Pipeline",
+    },
+    "DataBrewCicdPipelineCodeCommitCustomResourceEBD46D36": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "DataBrewCicdPipelineLambdaInvokerframeworkonEvent3608D392",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LambdaInvoker",
+      "UpdateReplacePolicy": "Delete",
     },
     "DataBrewCicdPipelineCodePipelineBucket8E660891": Object {
       "DeletionPolicy": "Delete",
@@ -512,7 +537,6 @@ Object {
     },
     "DataBrewCicdPipelineDataBrewRepository47B249AB": Object {
       "Properties": Object {
-        "RepositoryDescription": "Some description.",
         "RepositoryName": "DataBrew-Recipes-Repo",
       },
       "Type": "AWS::CodeCommit::Repository",
@@ -637,6 +661,380 @@ Object {
         "Roles": Array [
           Object {
             "Ref": "DataBrewCicdPipelineEventsRole934BD973",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelineFirstCommitLambdaCommitHandlerFunction1C079081": Object {
+      "DependsOn": Array [
+        "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDefaultPolicyC4759469",
+        "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDE9609F7",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3Bucket78AFA6CD",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3VersionKeyE8C9C984",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3VersionKeyE8C9C984",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Description": "Read from latest commit and publish AWS Glue DataBrew recipe to production account",
+        "Environment": Object {
+          "Variables": Object {
+            "branch_name": "main",
+            "readme_contents": "CONTENTS OF THIS FILE
+------------
+ * Introduction
+ * How to set up local access
+INTRODUCTION
+------------
+This repository is used for storing recipes for AWSGlue DataBrew. DataBrew is a visual data preparation tool that makes it easy to profile and prepare data for analytics and machine learning (ML). 
+HOW TO SET UP LOCAL ACCESS
+------------
+To set up local developer access:
+1. Open a terminal window, and configure the AWS CLI.
+   \`\`\`
+   aws configure
+   \`\`\`
+2. When prompted, provide the following information.
+   \`\`\`
+   > AWS Access Key ID [None]: User-Access-Key
+   > AWS Secret Access Key ID [None]: User-Secret-Access-Key
+   > Default region name ID [None]: us-east-1
+   > Default output format [None]: json
+   \`\`\`
+3. In a plain-text editor, open the config file, also known as the AWS CLI configuration file. Depending on your operating system, this file might be located at \`~/.aws/config\` on Linux, macOS, or Unix, or at \`drive:\\\\Users\\\\USERNAME\\\\.aws\\\\config\` on Windows.
+4. Update the file to include two entries, default for your account, and a second for cross account access. The resulting file should look as follows: 
+   \`\`\`
+   [default]
+   account = <user-account-id>
+   region = us-east-1
+   output = json
+    
+   [profile CrossAccountAccessProfile]
+   account = <infra-account-id>
+   region = us-east-1
+   output = json
+   role_arn = arn:aws:iam::<infra-account-id>:role/CrossAccountRepositoryContributorRole
+   source_profile = default
+   \`\`\`
+6. Save your changes, and close the plain-text editor.
+7. Run *git clone* to clone the shared repository.
+   \`\`\`
+   > git clone codecommit://CrossAccountAccessProfile@DataBrew-Recipes-Repo 
+   \`\`\`",
+            "repo_name": Object {
+              "Fn::GetAtt": Array [
+                "DataBrewCicdPipelineDataBrewRepository47B249AB",
+                "Name",
+              ],
+            },
+          },
+        },
+        "FunctionName": "FirstCommitHandler",
+        "Handler": "index.lambda_handler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDE9609F7",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.8",
+        "Timeout": 20,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DataBrewCicdPipelineFirstCommitLambdaCommitHandlerFunctionLogRetentionB854035D": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "DataBrewCicdPipelineFirstCommitLambdaCommitHandlerFunction1C079081",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDE9609F7": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com ",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "An execution role for the Lambda function which deals with first commit via AWS CodeCommit.",
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AWSXRayDaemonWriteAccess",
+              ],
+            ],
+          },
+        ],
+        "Policies": Array [
+          Object {
+            "PolicyDocument": Object {
+              "Statement": Array [
+                Object {
+                  "Action": "codecommit:CreateCommit",
+                  "Effect": "Allow",
+                  "Resource": Object {
+                    "Fn::GetAtt": Array [
+                      "DataBrewCicdPipelineDataBrewRepository47B249AB",
+                      "Arn",
+                    ],
+                  },
+                  "Sid": "0",
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "LambdaForBranchPolicy",
+          },
+        ],
+        "RoleName": "LambdaForInitialCommitRole",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDefaultPolicyC4759469": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDefaultPolicyC4759469",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelineFirstCommitLambdaFirstCommitFunctionRoleDE9609F7",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelineLambdaInvokerframeworkonEvent3608D392": Object {
+      "DependsOn": Array [
+        "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRoleDefaultPolicyEF512855",
+        "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRole223F292C",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyDD9AE9E7",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyDD9AE9E7",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (infra-stack/DataBrewCicdPipeline/LambdaInvoker)",
+        "Environment": Object {
+          "Variables": Object {
+            "USER_ON_EVENT_FUNCTION_ARN": Object {
+              "Fn::GetAtt": Array [
+                "DataBrewCicdPipelineFirstCommitLambdaCommitHandlerFunction1C079081",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRole223F292C",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DataBrewCicdPipelineLambdaInvokerframeworkonEventLogRetentionB621A223": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "DataBrewCicdPipelineLambdaInvokerframeworkonEvent3608D392",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 5,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRole223F292C": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRoleDefaultPolicyEF512855": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "DataBrewCicdPipelineFirstCommitLambdaCommitHandlerFunction1C079081",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRoleDefaultPolicyEF512855",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelineLambdaInvokerframeworkonEventServiceRole223F292C",
           },
         ],
       },

@@ -14,7 +14,7 @@ test('IamRole', () => {
   });
 
   expect(SynthUtils.toCloudFormation(infraStack)).toMatchSnapshot();
-  expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::Role', 9);
+  expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::Role', 11);
   expect(infraStack).toHaveResource('AWS::IAM::Role', {
     "AssumeRolePolicyDocument": {
       "Statement": [
@@ -45,8 +45,73 @@ test('IamRole', () => {
       "Version": "2012-10-17"
     }
   });
+  expect(infraStack).toHaveResource('AWS::IAM::Role', {
+    "AssumeRolePolicyDocument": {
+      "Statement": [
+        {
+          "Action": "sts:AssumeRole",
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "lambda.amazonaws.com "
+          }
+        }
+      ],
+      "Version": "2012-10-17"
+    },
+    "Description": "An execution role for the Lambda function which deals with first commit via AWS CodeCommit.",
+    "ManagedPolicyArns": [
+      {
+        "Fn::Join": [
+          "",
+          [
+            "arn:",
+            {
+              "Ref": "AWS::Partition"
+            },
+            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          ]
+        ]
+      },
+      {
+        "Fn::Join": [
+          "",
+          [
+            "arn:",
+            {
+              "Ref": "AWS::Partition"
+            },
+            ":iam::aws:policy/AWSXRayDaemonWriteAccess"
+          ]
+        ]
+      }
+    ],
+    "Policies": [
+      {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "codecommit:CreateCommit",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "DataBrewCicdPipelineDataBrewRepository47B249AB",
+                  "Arn"
+                ]
+              },
+              "Sid": "0"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "LambdaForBranchPolicy"
+      }
+    ],
+    "RoleName": "LambdaForInitialCommitRole"
+  });
 
-  expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::Policy', 8);
+  expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::ManagedPolicy', 2);
+
+  expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::Policy', 10);
   expect(SynthUtils.toCloudFormation(infraStack)).toHaveResource('AWS::IAM::Policy', {
     "PolicyDocument": {
       "Statement": [
@@ -338,7 +403,15 @@ test('IamRole', () => {
   expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::CodeCommit::Repository', 1);
   expect(SynthUtils.toCloudFormation(infraStack)).toHaveResourceLike('AWS::CodeCommit::Repository', {
     "RepositoryName": "DataBrew-Recipes-Repo",
-    "RepositoryDescription": "Some description."
+  });
+  expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('Custom::LambdaInvoker', 1);
+  expect(SynthUtils.toCloudFormation(infraStack)).toHaveResourceLike('Custom::LambdaInvoker', {
+    "ServiceToken": {
+      "Fn::GetAtt": [
+        "DataBrewCicdPipelineLambdaInvokerframeworkonEvent3608D392",
+        "Arn"
+      ]
+    }
   });
 
   expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::Events::Rule', 1);
