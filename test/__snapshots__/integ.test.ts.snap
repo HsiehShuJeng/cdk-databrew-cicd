@@ -1,3 +1,144 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IamRole 1`] = `Object {}`;
+exports[`IamRole 1`] = `
+Object {
+  "Resources": Object {
+    "DataBrewCodePipelineCodePipelineIamRole2999CE31": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "codepipeline.amazonaws.com ",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "The IAM role for the CodePipeline CICD pipeline in the infrastructure account.",
+        "RoleName": "DataBrew-Recipe-Pipeline-Role",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCodePipelineCodePipelineIamRoleDefaultPolicyB989C8CA": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "codedeploy:CreateDeployment",
+                "codedeploy:GetApplicationRevision",
+                "codedeploy:GetDeployment",
+                "codedeploy:GetDeploymentConfig",
+                "codedeploy:RegisterApplicationRevision",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":codedeploy:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":deploymentgroup:DataBrew-Recipe-Application*",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":codedeploy:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":application:DataBrew-Recipe-Application",
+                    ],
+                  ],
+                },
+              ],
+              "Sid": "CodeDeployPermissions",
+            },
+            Object {
+              "Action": Array [
+                "codecommit:GetBranch",
+                "codecommit:GetCommit",
+                "codecommit:GetUploadArchiveStatus",
+                "codecommit:UploadArchive",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codecommit:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":DataBrew-Recipes-Repo",
+                  ],
+                ],
+              },
+              "Sid": "CodeCommitPermissions",
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject",
+                "s3:PutObject",
+              ],
+              "Effect": "Allow",
+              "Resource": "bucketArn",
+              "Sid": "S3Permissions",
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                "preproductionArn",
+                "productionArn",
+              ],
+              "Sid": "LambdaPermissions",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCodePipelineCodePipelineIamRoleDefaultPolicyB989C8CA",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCodePipelineCodePipelineIamRole2999CE31",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
