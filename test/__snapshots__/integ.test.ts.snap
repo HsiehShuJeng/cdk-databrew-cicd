@@ -750,6 +750,11 @@ Object {
           },
         },
         "Description": "Read from latest commit and publish AWS Glue DataBrew recipe to pre-prod account",
+        "Environment": Object {
+          "Variables": Object {
+            "role": "PREPRODUCTION_IAM_ROLE_ARN",
+          },
+        },
         "FunctionName": "PreProd-DataBrew-Recipe-Deployer",
         "Handler": "index.lambda_handler",
         "MemorySize": 128,
@@ -790,8 +795,11 @@ Object {
       },
       "Type": "Custom::LogRetention",
     },
-    "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleDefaultPolicy26DF5E0A": Object {
+    "DataBrewCicdPipelinePreProductionLambdaPreProductionManagedPolicyF0F177F4": Object {
       "Properties": Object {
+        "Description": "",
+        "ManagedPolicyName": "PreProd-DataBrew-Recipe-Deployer-Policy",
+        "Path": "/",
         "PolicyDocument": Object {
           "Statement": Array [
             Object {
@@ -828,6 +836,16 @@ Object {
               "Resource": "PREPRODUCTION_IAM_ROLE_ARN",
               "Sid": "AssumeRolePermission",
             },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
+    },
+    "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleDefaultPolicy26DF5E0A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
             Object {
               "Action": Array [
                 "xray:PutTraceSegments",
@@ -895,6 +913,9 @@ Object {
                 ":iam::aws:policy/AWSXRayDaemonWriteAccess",
               ],
             ],
+          },
+          Object {
+            "Ref": "DataBrewCicdPipelinePreProductionLambdaPreProductionManagedPolicyF0F177F4",
           },
         ],
         "RoleName": "PreProd-DataBrew-Recipe-Deployer-role",
@@ -1009,6 +1030,11 @@ Object {
           },
         },
         "Description": "Read from latest commit and publish AWS Glue DataBrew recipe to production account",
+        "Environment": Object {
+          "Variables": Object {
+            "role": "PRODUCTION_IAM_ROLE_ARN",
+          },
+        },
         "FunctionName": "Prod-DataBrew-Recipe-Deployer",
         "Handler": "index.lambda_handler",
         "MemorySize": 128,
@@ -1053,40 +1079,6 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
-            Object {
-              "Action": Array [
-                "codepipeline:PutJobFailureResult",
-                "codepipeline:PutJobSuccessResult",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
-              "Sid": "CodePipelinePermissions",
-            },
-            Object {
-              "Action": "s3:GetObject",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    Object {
-                      "Fn::GetAtt": Array [
-                        "DataBrewCicdPipelineCodePipelineBucket8E660891",
-                        "Arn",
-                      ],
-                    },
-                    "/*",
-                  ],
-                ],
-              },
-              "Sid": "S3BucketPermissions",
-            },
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Resource": "PRODUCTION_IAM_ROLE_ARN",
-              "Sid": "AssumeRolePermission",
-            },
             Object {
               "Action": Array [
                 "xray:PutTraceSegments",
@@ -1155,10 +1147,60 @@ Object {
               ],
             ],
           },
+          Object {
+            "Ref": "DataBrewCicdPipelineProductionLambdaProductionLambdaMangedPolicuyA84C256D",
+          },
         ],
         "RoleName": "Prod-DataBrew-Recipe-Deployer-role",
       },
       "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineProductionLambdaProductionLambdaMangedPolicuyA84C256D": Object {
+      "Properties": Object {
+        "Description": "",
+        "ManagedPolicyName": "Prod-DataBrew-Recipe-Deployer-Policy",
+        "Path": "/",
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "codepipeline:PutJobFailureResult",
+                "codepipeline:PutJobSuccessResult",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+              "Sid": "CodePipelinePermissions",
+            },
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "S3BucketPermissions",
+            },
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": "PRODUCTION_IAM_ROLE_ARN",
+              "Sid": "AssumeRolePermission",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::ManagedPolicy",
     },
     "DataBrewCicdPipelineSourceCodePipelineActionRoleDefaultPolicy2B4AE9B4": Object {
       "Properties": Object {

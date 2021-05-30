@@ -17,8 +17,8 @@ test('Lambda test', () => {
         productionIamRoleArn: 'PRODUCTION_IAM_ROLE_ARN'
     });
 
-    expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::IAM::Policy', 3);
-    expect(lambdaStack).toHaveResource('AWS::IAM::Policy', {
+    expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::IAM::ManagedPolicy', 2);
+    expect(lambdaStack).toHaveResource('AWS::IAM::ManagedPolicy', {
         "PolicyDocument": {
             "Statement": [
                 {
@@ -41,47 +41,15 @@ test('Lambda test', () => {
                     "Effect": "Allow",
                     "Resource": "PREPRODUCTION_IAM_ROLE_ARN",
                     "Sid": "AssumeRolePermission"
-                },
-                {
-                    "Action": [
-                        "xray:PutTraceSegments",
-                        "xray:PutTelemetryRecords"
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*"
                 }
             ],
             "Version": "2012-10-17"
         },
-        "PolicyName": "PreProductionLambdaPreproductionFunctionRoleDefaultPolicy952B7B0C",
-        "Roles": [
-            {
-                "Ref": "PreProductionLambdaPreproductionFunctionRole725F0407"
-            }
-        ]
+        "Description": "",
+        "ManagedPolicyName": "PreProd-DataBrew-Recipe-Deployer-Policy",
+        "Path": "/"
     });
-    expect(lambdaStack).toHaveResourceLike('AWS::IAM::Policy', {
-        "PolicyDocument": {
-            "Statement": [
-                {
-                    "Action": [
-                        "logs:PutRetentionPolicy",
-                        "logs:DeleteRetentionPolicy"
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*"
-                }
-            ],
-            "Version": "2012-10-17"
-        },
-        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
-        "Roles": [
-            {
-                "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
-            }
-        ]
-    });
-    expect(lambdaStack).toHaveResourceLike('AWS::IAM::Policy', {
+    expect(lambdaStack).toHaveResource('AWS::IAM::ManagedPolicy', {
         "PolicyDocument": {
             "Statement": [
                 {
@@ -104,11 +72,23 @@ test('Lambda test', () => {
                     "Effect": "Allow",
                     "Resource": "PRODUCTION_IAM_ROLE_ARN",
                     "Sid": "AssumeRolePermission"
-                },
+                }
+            ],
+            "Version": "2012-10-17"
+        },
+        "Description": "",
+        "ManagedPolicyName": "Prod-DataBrew-Recipe-Deployer-Policy",
+        "Path": "/"
+    });
+
+    expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::IAM::Policy', 3);
+    expect(lambdaStack).toHaveResourceLike('AWS::IAM::Policy', {
+        "PolicyDocument": {
+            "Statement": [
                 {
                     "Action": [
-                        "xray:PutTraceSegments",
-                        "xray:PutTelemetryRecords"
+                        "logs:PutRetentionPolicy",
+                        "logs:DeleteRetentionPolicy"
                     ],
                     "Effect": "Allow",
                     "Resource": "*"
@@ -116,10 +96,10 @@ test('Lambda test', () => {
             ],
             "Version": "2012-10-17"
         },
-        "PolicyName": "ProductionLambdaProductionFunctionRoleDefaultPolicy295347A5",
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
         "Roles": [
             {
-                "Ref": "ProductionLambdaProductionFunctionRoleC7B3DEF1"
+                "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
             }
         ]
     });
