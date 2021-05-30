@@ -109,7 +109,37 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-codecommit",
+      "version": "^1.106.1",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline-actions",
+      "version": "^1.106.1",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline",
+      "version": "^1.106.1",
+      "type": "peer"
+    },
+    {
       "name": "@aws-cdk/aws-iam",
+      "version": "^1.106.1",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda",
+      "version": "^1.106.1",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-logs",
+      "version": "^1.106.1",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-s3",
       "version": "^1.106.1",
       "type": "peer"
     },
@@ -124,7 +154,37 @@
       "type": "peer"
     },
     {
+      "name": "@aws-cdk/aws-codecommit",
+      "version": "^1.106.1",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline-actions",
+      "version": "^1.106.1",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-codepipeline",
+      "version": "^1.106.1",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-cdk/aws-iam",
+      "version": "^1.106.1",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-lambda",
+      "version": "^1.106.1",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-logs",
+      "version": "^1.106.1",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-s3",
       "version": "^1.106.1",
       "type": "runtime"
     },

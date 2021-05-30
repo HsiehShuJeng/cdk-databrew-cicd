@@ -22,6 +22,12 @@ const project = new AwsCdkConstructLibrary({
   cdkDependencies: [
     '@aws-cdk/core',
     '@aws-cdk/aws-iam',
+    '@aws-cdk/aws-logs',
+    '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-codecommit',
+    '@aws-cdk/aws-codepipeline',
+    '@aws-cdk/aws-codepipeline-actions',
+    '@aws-cdk/aws-s3'
   ],
   cdkAssert: true,
   cdkVersionPinning: false, // see https://www.matthewbonig.com/2021/04/06/automating-construct-publishing/
