@@ -2,8 +2,126 @@
 
 exports[`IamRole 1`] = `
 Object {
+  "Parameters": Object {
+    "AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eArtifactHashE129F6A3": Object {
+      "Description": "Artifact hash for asset \\"2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620e\\"",
+      "Type": "String",
+    },
+    "AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eS3Bucket0FF07C31": Object {
+      "Description": "S3 bucket for asset \\"2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620e\\"",
+      "Type": "String",
+    },
+    "AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eS3VersionKey8D873D9E": Object {
+      "Description": "S3 key for asset version \\"2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620e\\"",
+      "Type": "String",
+    },
+    "AssetParameters4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392ArtifactHashE56CD69A": Object {
+      "Description": "Artifact hash for asset \\"4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392\\"",
+      "Type": "String",
+    },
+    "AssetParameters4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392S3BucketBF7A7F3F": Object {
+      "Description": "S3 bucket for asset \\"4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392\\"",
+      "Type": "String",
+    },
+    "AssetParameters4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392S3VersionKeyFAF93626": Object {
+      "Description": "S3 key for asset version \\"4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392\\"",
+      "Type": "String",
+    },
+    "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24ArtifactHashBA91B77F": Object {
+      "Description": "Artifact hash for asset \\"67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24\\"",
+      "Type": "String",
+    },
+    "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24S3Bucket4D46ABB5": Object {
+      "Description": "S3 bucket for asset \\"67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24\\"",
+      "Type": "String",
+    },
+    "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24S3VersionKeyB0F28861": Object {
+      "Description": "S3 key for asset version \\"67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24\\"",
+      "Type": "String",
+    },
+    "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85ArtifactHashD3597BC8": Object {
+      "Description": "Artifact hash for asset \\"e80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85\\"",
+      "Type": "String",
+    },
+    "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3Bucket78AFA6CD": Object {
+      "Description": "S3 bucket for asset \\"e80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85\\"",
+      "Type": "String",
+    },
+    "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3VersionKeyE8C9C984": Object {
+      "Description": "S3 key for asset version \\"e80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85\\"",
+      "Type": "String",
+    },
+  },
   "Resources": Object {
-    "DataBrewCodePipelineCodePipelineIamRole2999CE31": Object {
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": Object {
+      "DependsOn": Array [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392S3BucketBF7A7F3F",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392S3VersionKeyFAF93626",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters4cd61014b71160e8c66fe167e43710d5ba068b80b134e9bd84508cf9238b2392S3VersionKeyFAF93626",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Description": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "Lambda function for auto-deleting objects in ",
+              Object {
+                "Ref": "DataBrewCicdPipelineCodePipelineBucket8E660891",
+              },
+              " S3 bucket.",
+            ],
+          ],
+        },
+        "Handler": "__entrypoint__.handler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -11,18 +129,237 @@ Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": Object {
-                "Service": "codepipeline.amazonaws.com ",
+                "Service": "lambda.amazonaws.com",
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "Description": "The IAM role for the CodePipeline CICD pipeline in the infrastructure account.",
-        "RoleName": "DataBrew-Recipe-Pipeline-Role",
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
       },
       "Type": "AWS::IAM::Role",
     },
-    "DataBrewCodePipelineCodePipelineIamRoleDefaultPolicyB989C8CA": Object {
+    "DataBrewCicdPipelineCC806CF6": Object {
+      "DependsOn": Array [
+        "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleDefaultPolicyCF285214",
+        "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleE9975511",
+      ],
+      "Properties": Object {
+        "ArtifactStore": Object {
+          "Location": Object {
+            "Ref": "DataBrewCicdPipelineCodePipelineBucket8E660891",
+          },
+          "Type": "S3",
+        },
+        "Name": "DataBrew-Recipe-Application",
+        "RoleArn": Object {
+          "Fn::GetAtt": Array [
+            "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleE9975511",
+            "Arn",
+          ],
+        },
+        "Stages": Array [
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Source",
+                  "Owner": "AWS",
+                  "Provider": "CodeCommit",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "BranchName": "main",
+                  "PollForSourceChanges": false,
+                  "RepositoryName": Object {
+                    "Fn::GetAtt": Array [
+                      "DataBrewCicdPipelineDataBrewRepository47B249AB",
+                      "Name",
+                    ],
+                  },
+                },
+                "Name": "Source",
+                "OutputArtifacts": Array [
+                  Object {
+                    "Name": "SourceOutput",
+                  },
+                ],
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelineSourceCodePipelineActionRoleFEFC0B02",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Source",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Invoke",
+                  "Owner": "AWS",
+                  "Provider": "Lambda",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "FunctionName": Object {
+                    "Ref": "DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05",
+                  },
+                },
+                "Name": "PreProd-DeployRecipe",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelinePreProdDeployRecipeCodePipelineActionRole53F08A63",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "PreProd-DeployRecipe",
+          },
+          Object {
+            "Actions": Array [
+              Object {
+                "ActionTypeId": Object {
+                  "Category": "Invoke",
+                  "Owner": "AWS",
+                  "Provider": "Lambda",
+                  "Version": "1",
+                },
+                "Configuration": Object {
+                  "FunctionName": Object {
+                    "Ref": "DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C",
+                  },
+                },
+                "Name": "Prod-DeployRecipe",
+                "RoleArn": Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelineProdDeployRecipeCodePipelineActionRole555B7C85",
+                    "Arn",
+                  ],
+                },
+                "RunOrder": 1,
+              },
+            ],
+            "Name": "Prod-DeployRecipe",
+          },
+        ],
+      },
+      "Type": "AWS::CodePipeline::Pipeline",
+    },
+    "DataBrewCicdPipelineCodePipelineBucket8E660891": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "BucketName": "bucket-name",
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DataBrewCicdPipelineCodePipelineBucketAutoDeleteObjectsCustomResource6E4E3054": Object {
+      "DeletionPolicy": "Delete",
+      "DependsOn": Array [
+        "DataBrewCicdPipelineCodePipelineBucketPolicy011525FF",
+      ],
+      "Properties": Object {
+        "BucketName": Object {
+          "Ref": "DataBrewCicdPipelineCodePipelineBucket8E660891",
+        },
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DataBrewCicdPipelineCodePipelineBucketPolicy011525FF": Object {
+      "Properties": Object {
+        "Bucket": Object {
+          "Ref": "DataBrewCicdPipelineCodePipelineBucket8E660891",
+        },
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::GetAtt": Array [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": "s3:PutObject",
+              "Condition": Object {
+                "StringNotEquals": Object {
+                  "s3:x-amz-server-side-encryption": "aws:kms",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "DenyUnEncryptedObjectUploads",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+    "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleDefaultPolicyCF285214": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -115,25 +452,916 @@ Object {
                 "s3:PutObject",
               ],
               "Effect": "Allow",
-              "Resource": "bucketArn",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                  "Arn",
+                ],
+              },
               "Sid": "S3Permissions",
             },
             Object {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
               "Resource": Array [
-                "preproductionArn",
-                "productionArn",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C",
+                    "Arn",
+                  ],
+                },
               ],
               "Sid": "LambdaPermissions",
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "DataBrewCodePipelineCodePipelineIamRoleDefaultPolicyB989C8CA",
+        "PolicyName": "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleDefaultPolicyCF285214",
         "Roles": Array [
           Object {
-            "Ref": "DataBrewCodePipelineCodePipelineIamRole2999CE31",
+            "Ref": "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleE9975511",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleE9975511": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "codepipeline.amazonaws.com ",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "The IAM role for the CodePipeline CICD pipeline in the infrastructure account.",
+        "RoleName": "DataBrew-Recipe-Pipeline-Role",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineDataBrewRepository47B249AB": Object {
+      "Properties": Object {
+        "RepositoryDescription": "Some description.",
+        "RepositoryName": "DataBrew-Recipes-Repo",
+      },
+      "Type": "AWS::CodeCommit::Repository",
+    },
+    "DataBrewCicdPipelineDataBrewRepositoryinfrastackDataBrewCicdPipelineC9F4C7E2mainEventRule2E88514B": Object {
+      "Properties": Object {
+        "EventPattern": Object {
+          "detail": Object {
+            "event": Array [
+              "referenceCreated",
+              "referenceUpdated",
+            ],
+            "referenceName": Array [
+              "main",
+            ],
+          },
+          "detail-type": Array [
+            "CodeCommit Repository State Change",
+          ],
+          "resources": Array [
+            Object {
+              "Fn::GetAtt": Array [
+                "DataBrewCicdPipelineDataBrewRepository47B249AB",
+                "Arn",
+              ],
+            },
+          ],
+          "source": Array [
+            "aws.codecommit",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "arn:",
+                  Object {
+                    "Ref": "AWS::Partition",
+                  },
+                  ":codepipeline:",
+                  Object {
+                    "Ref": "AWS::Region",
+                  },
+                  ":",
+                  Object {
+                    "Ref": "AWS::AccountId",
+                  },
+                  ":",
+                  Object {
+                    "Ref": "DataBrewCicdPipelineCC806CF6",
+                  },
+                ],
+              ],
+            },
+            "Id": "Target0",
+            "RoleArn": Object {
+              "Fn::GetAtt": Array [
+                "DataBrewCicdPipelineEventsRole934BD973",
+                "Arn",
+              ],
+            },
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "DataBrewCicdPipelineEventsRole934BD973": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "events.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineEventsRoleDefaultPolicy8CB5BEFB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "codepipeline:StartPipelineExecution",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codepipeline:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "DataBrewCicdPipelineCC806CF6",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelineEventsRoleDefaultPolicy8CB5BEFB",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelineEventsRole934BD973",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelinePreProdDeployRecipeCodePipelineActionRole53F08A63": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelinePreProdDeployRecipeCodePipelineActionRoleDefaultPolicy2ED2ED0C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:ListFunctions",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelinePreProdDeployRecipeCodePipelineActionRoleDefaultPolicy2ED2ED0C",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelinePreProdDeployRecipeCodePipelineActionRole53F08A63",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05": Object {
+      "DependsOn": Array [
+        "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleDefaultPolicy26DF5E0A",
+        "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleF4A39094",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eS3Bucket0FF07C31",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eS3VersionKey8D873D9E",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eS3VersionKey8D873D9E",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Description": "Read from latest commit and publish AWS Glue DataBrew recipe to pre-prod account",
+        "FunctionName": "PreProd-DataBrew-Recipe-Deployer",
+        "Handler": "index.lambda_handler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleF4A39094",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.8",
+        "Timeout": 20,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DataBrewCicdPipelinePreProductionLambdaPreProductionFunctionLogRetentionD7BB7A77": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleDefaultPolicy26DF5E0A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "codepipeline:PutJobFailureResult",
+                "codepipeline:PutJobSuccessResult",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+              "Sid": "CodePipelinePermissions",
+            },
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "S3BucketPermissions",
+            },
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": "PREPRODUCTION_IAM_ROLE_ARN",
+              "Sid": "AssumeRolePermission",
+            },
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "codepipeline:PutJobSuccessResult",
+                "codepipeline:PutJobFailureResult",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleDefaultPolicy26DF5E0A",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleF4A39094",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelinePreProductionLambdaPreproductionFunctionRoleF4A39094": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com ",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "An execution role for the pre-production Lambda funciton.",
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AWSXRayDaemonWriteAccess",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "PreProd-DataBrew-Recipe-Deployer-role",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineProdDeployRecipeCodePipelineActionRole555B7C85": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineProdDeployRecipeCodePipelineActionRoleDefaultPolicyDD08D6A4": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "lambda:ListFunctions",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelineProdDeployRecipeCodePipelineActionRoleDefaultPolicyDD08D6A4",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelineProdDeployRecipeCodePipelineActionRole555B7C85",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C": Object {
+      "DependsOn": Array [
+        "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleDefaultPolicyE204515C",
+        "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleEE3F9F49",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3Bucket78AFA6CD",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3VersionKeyE8C9C984",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3VersionKeyE8C9C984",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Description": "Read from latest commit and publish AWS Glue DataBrew recipe to production account",
+        "FunctionName": "Prod-DataBrew-Recipe-Deployer",
+        "Handler": "index.lambda_handler",
+        "MemorySize": 128,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleEE3F9F49",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.8",
+        "Timeout": 20,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DataBrewCicdPipelineProductionLambdaProductionFunctionLogRetention2F143EF3": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleDefaultPolicyE204515C": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "codepipeline:PutJobFailureResult",
+                "codepipeline:PutJobSuccessResult",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+              "Sid": "CodePipelinePermissions",
+            },
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+              "Sid": "S3BucketPermissions",
+            },
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": "PRODUCTION_IAM_ROLE_ARN",
+              "Sid": "AssumeRolePermission",
+            },
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "codepipeline:PutJobSuccessResult",
+                "codepipeline:PutJobFailureResult",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleDefaultPolicyE204515C",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleEE3F9F49",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelineProductionLambdaProductionFunctionRoleEE3F9F49": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com ",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Description": "An execution role for the production Lambda funciton.",
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/AWSXRayDaemonWriteAccess",
+              ],
+            ],
+          },
+        ],
+        "RoleName": "Prod-DataBrew-Recipe-Deployer-role",
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DataBrewCicdPipelineSourceCodePipelineActionRoleDefaultPolicy2B4AE9B4": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "codecommit:GetBranch",
+                "codecommit:GetCommit",
+                "codecommit:UploadArchive",
+                "codecommit:GetUploadArchiveStatus",
+                "codecommit:CancelUploadArchive",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "DataBrewCicdPipelineDataBrewRepository47B249AB",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DataBrewCicdPipelineSourceCodePipelineActionRoleDefaultPolicy2B4AE9B4",
+        "Roles": Array [
+          Object {
+            "Ref": "DataBrewCicdPipelineSourceCodePipelineActionRoleFEFC0B02",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DataBrewCicdPipelineSourceCodePipelineActionRoleFEFC0B02": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "AWS": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":iam::",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":root",
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": Object {
+      "DependsOn": Array [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24S3Bucket4D46ABB5",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24S3VersionKeyB0F28861",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24S3VersionKeyB0F28861",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": Array [
+          Object {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
           },
         ],
       },

@@ -2,7 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as codecommit from '@aws-cdk/aws-codecommit';
 import * as codepipeline from '@aws-cdk/aws-codepipeline';
-// import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
+import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
 import * as s3 from '@aws-cdk/aws-s3';
 import { PreProductionLambda, ProductionLambda } from './cdk-databrew-lambda';
 
@@ -12,11 +12,11 @@ export interface DataBrewCodePipelineProps {
     /**
      * The ARN of the IAM role in the pre-production account.
      */
-    readonly preproductionIamRoleArn: string;
+    preproductionIamRoleArn: string;
     /**
      * The ARN of the IAM role in the production account.
      */
-    readonly productionIamRoleArn: string;
+    productionIamRoleArn: string;
     /**
      * The name of the S3 bucket for the CodePipeline DataBrew CICD pipeline.
      * 
@@ -111,7 +111,7 @@ export class DataBrewCodePipeline extends cdk.Construct {
         this.productionFunctionArn = productionLambda.function.functionArn;
 
         // create a CodeCommit repo
-        new codecommit.Repository(this, 'DataBrewRepository', {
+        const codeCommitRepo = new codecommit.Repository(this, 'DataBrewRepository', {
             repositoryName: 'DataBrew-Recipes-Repo',
             description: 'Some description.', // optional property
         });
@@ -119,31 +119,56 @@ export class DataBrewCodePipeline extends cdk.Construct {
         // create a CodePipeline pipeline
         const pipelineRole = new CodePipelineIamRole(this, 'DataBrewCodePipelineRole', {
             bucketArn: pipelineBucket.bucketArn,
-            preproductionLambdaArn: '',
-            productionLambdaArn: ''
+            preproductionLambdaArn: this.preproductionFunctionArn,
+            productionLambdaArn: this.productionFunctionArn
         });
 
-        new codepipeline.Pipeline(this, 'DataBrewCicdPipeline', {
+        const cicdePipeline = new codepipeline.Pipeline(this, 'DataBrewCicdPipeline', {
             artifactBucket: pipelineBucket,
-            role: pipelineRole.role,
+            role: pipelineRole.role.withoutPolicyUpdates(),
             pipelineName: props.pipelineName ?? 'DataBrew-Recipe-Application',
         });
-        // cicdPipeline.addStage({
-        //     stageName: 'RetrieveStage',
-        //     actions: [sourceAction],
-        // });
+        const sourceAction = this.createSourceAction(codeCommitRepo);
+        const preproductionLambdaAction = new codepipeline_actions.LambdaInvokeAction({
+            actionName: 'PreProd-DeployRecipe',
+            lambda: preproductionLambda.function,
+        });
+        const productionLambdaAction = new codepipeline_actions.LambdaInvokeAction({
+            actionName: 'Prod-DeployRecipe',
+            lambda: productionLambda.function,
+        });
+        cicdePipeline.addStage({
+            stageName: 'Source',
+            actions: [sourceAction]
+        });
+        cicdePipeline.addStage({
+            stageName: 'PreProd-DeployRecipe',
+            actions: [preproductionLambdaAction]
+        });
+        cicdePipeline.addStage({
+            stageName: 'Prod-DeployRecipe',
+            actions: [productionLambdaAction]
+        });
     }
 
-    // private createSourceAction = (): codepipeline_actions.CodeCommitSourceAction => {
-    //     const sourceOutput = new codepipeline.Artifact(this.firstStageArtifactName);
-    //     const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
-    //         actionName: 'Source',
-    //         output: sourceOutput,
-    //         branch: this.branchName, // default: 'master'
-    //         runOrder: 1,
-    //     });
-    //     return sourceAction;
-    // }
+    /**
+     * Creates a source action.
+     * 
+     * @param codeCommitRepo the CodeCommit repository used in the DataBrew CICD pipeline.
+     * @returns the CodeCOmmit source action.
+     */
+    private createSourceAction = (codeCommitRepo: codecommit.IRepository): codepipeline_actions.CodeCommitSourceAction => {
+        const sourceOutput = new codepipeline.Artifact(this.firstStageArtifactName);
+        const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
+            actionName: 'Source',
+            output: sourceOutput,
+            branch: this.branchName, // default: 'master'
+            trigger: codepipeline_actions.CodeCommitTrigger.EVENTS,
+            repository: codeCommitRepo,
+            runOrder: 1,
+        });
+        return sourceAction;
+    }
 }
 
 export interface InfraIamRoleProps {
@@ -227,7 +252,7 @@ export class CodePipelineIamRole extends cdk.Construct {
     /**
      * The representative of the IAM role for the CodePipeline CICD pipeline.
      */
-    readonly role: iam.IRole;
+    readonly role: iam.Role;
     constructor(scope: cdk.Construct, name: string, props: CodePipelineIamRoleProps) {
         super(scope, name);
         const role = new iam.Role(this, 'CodePipelineIamRole', {
