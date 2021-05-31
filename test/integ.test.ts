@@ -11,142 +11,140 @@ test('IamRole', () => {
   new CodePipelineIamRole(infraStack, 'DataBrewCodePipeline', {
     bucketArn: 'bucketArn',
     preproductionLambdaArn: 'preproductionArn',
-    productionLambdaArn: 'productionArn'
+    productionLambdaArn: 'productionArn',
   });
-
-
 
 
   expect(SynthUtils.toCloudFormation(infraStack)).toMatchSnapshot();
   expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::Role', 1);
   expect(infraStack).toHaveResourceLike('AWS::IAM::Role', {
-    "AssumeRolePolicyDocument": {
-      "Statement": [
+    AssumeRolePolicyDocument: {
+      Statement: [
         {
-          "Action": "sts:AssumeRole",
-          "Effect": "Allow",
-          "Principal": {
-            "Service": "codepipeline.amazonaws.com "
-          }
-        }
+          Action: 'sts:AssumeRole',
+          Effect: 'Allow',
+          Principal: {
+            Service: 'codepipeline.amazonaws.com ',
+          },
+        },
       ],
-      "Version": "2012-10-17"
+      Version: '2012-10-17',
     },
   });
 
   expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::IAM::Policy', 1);
   expect(infraStack).toHaveResourceLike('AWS::IAM::Policy', {
-    "PolicyDocument": {
-      "Statement": [
+    PolicyDocument: {
+      Statement: [
         {
-          "Action": [
-            "codedeploy:CreateDeployment",
-            "codedeploy:GetApplicationRevision",
-            "codedeploy:GetDeployment",
-            "codedeploy:GetDeploymentConfig",
-            "codedeploy:RegisterApplicationRevision"
+          Action: [
+            'codedeploy:CreateDeployment',
+            'codedeploy:GetApplicationRevision',
+            'codedeploy:GetDeployment',
+            'codedeploy:GetDeploymentConfig',
+            'codedeploy:RegisterApplicationRevision',
           ],
-          "Effect": "Allow",
-          "Resource": [
+          Effect: 'Allow',
+          Resource: [
             {
-              "Fn::Join": [
-                "",
+              'Fn::Join': [
+                '',
                 [
-                  "arn:",
+                  'arn:',
                   {
-                    "Ref": "AWS::Partition"
+                    Ref: 'AWS::Partition',
                   },
-                  ":codedeploy:",
+                  ':codedeploy:',
                   {
-                    "Ref": "AWS::Region"
+                    Ref: 'AWS::Region',
                   },
-                  ":",
+                  ':',
                   {
-                    "Ref": "AWS::AccountId"
+                    Ref: 'AWS::AccountId',
                   },
-                  ":deploymentgroup:DataBrew-Recipe-Application*"
-                ]
-              ]
+                  ':deploymentgroup:DataBrew-Recipe-Application*',
+                ],
+              ],
             },
             {
-              "Fn::Join": [
-                "",
+              'Fn::Join': [
+                '',
                 [
-                  "arn:",
+                  'arn:',
                   {
-                    "Ref": "AWS::Partition"
+                    Ref: 'AWS::Partition',
                   },
-                  ":codedeploy:",
+                  ':codedeploy:',
                   {
-                    "Ref": "AWS::Region"
+                    Ref: 'AWS::Region',
                   },
-                  ":",
+                  ':',
                   {
-                    "Ref": "AWS::AccountId"
+                    Ref: 'AWS::AccountId',
                   },
-                  ":application:DataBrew-Recipe-Application"
-                ]
-              ]
-            }
+                  ':application:DataBrew-Recipe-Application',
+                ],
+              ],
+            },
           ],
-          "Sid": "CodeDeployPermissions"
+          Sid: 'CodeDeployPermissions',
         },
         {
-          "Action": [
-            "codecommit:GetBranch",
-            "codecommit:GetCommit",
-            "codecommit:GetUploadArchiveStatus",
-            "codecommit:UploadArchive"
+          Action: [
+            'codecommit:GetBranch',
+            'codecommit:GetCommit',
+            'codecommit:GetUploadArchiveStatus',
+            'codecommit:UploadArchive',
           ],
-          "Effect": "Allow",
-          "Resource": {
-            "Fn::Join": [
-              "",
+          Effect: 'Allow',
+          Resource: {
+            'Fn::Join': [
+              '',
               [
-                "arn:",
+                'arn:',
                 {
-                  "Ref": "AWS::Partition"
+                  Ref: 'AWS::Partition',
                 },
-                ":codecommit:",
+                ':codecommit:',
                 {
-                  "Ref": "AWS::Region"
+                  Ref: 'AWS::Region',
                 },
-                ":",
+                ':',
                 {
-                  "Ref": "AWS::AccountId"
+                  Ref: 'AWS::AccountId',
                 },
-                ":DataBrew-Recipes-Repo"
-              ]
-            ]
+                ':DataBrew-Recipes-Repo',
+              ],
+            ],
           },
-          "Sid": "CodeCommitPermissions"
+          Sid: 'CodeCommitPermissions',
         },
         {
-          "Action": [
-            "s3:GetObject",
-            "s3:PutObject"
+          Action: [
+            's3:GetObject',
+            's3:PutObject',
           ],
-          "Effect": "Allow",
-          "Resource": "bucketArn",
-          "Sid": "S3Permissions"
+          Effect: 'Allow',
+          Resource: 'bucketArn',
+          Sid: 'S3Permissions',
         },
         {
-          "Action": "lambda:InvokeFunction",
-          "Effect": "Allow",
-          "Resource": [
-            "preproductionArn",
-            "productionArn"
+          Action: 'lambda:InvokeFunction',
+          Effect: 'Allow',
+          Resource: [
+            'preproductionArn',
+            'productionArn',
           ],
-          "Sid": "LambdaPermissions"
-        }
+          Sid: 'LambdaPermissions',
+        },
       ],
-      "Version": "2012-10-17"
+      Version: '2012-10-17',
     },
-    "PolicyName": "DataBrewCodePipelineCodePipelineIamRoleDefaultPolicyB989C8CA",
-    "Roles": [
+    PolicyName: 'DataBrewCodePipelineCodePipelineIamRoleDefaultPolicyB989C8CA',
+    Roles: [
       {
-        "Ref": "DataBrewCodePipelineCodePipelineIamRole2999CE31"
-      }
-    ]
+        Ref: 'DataBrewCodePipelineCodePipelineIamRole2999CE31',
+      },
+    ],
   });
-})
+});
