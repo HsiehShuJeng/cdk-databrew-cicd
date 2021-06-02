@@ -2,6 +2,7 @@
 *.egg-info
 *.iml
 *.swp
+.DS_Store
 .cdk.staging
 .classpath
 .classpath.txt

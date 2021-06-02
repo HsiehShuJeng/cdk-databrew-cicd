@@ -19,7 +19,7 @@ const project = new AwsCdkConstructLibrary({
     twitter: 'fantasticHsieh',
   },
 
-  cdkVersion: '1.106.1',
+  cdkVersion: '1.107.0',
   defaultReleaseBranch: 'main',
   name: 'cdk-databrew-cicd',
   repositoryUrl: 'https://github.com/HsiehShuJeng/cdk-databrew-cicd.git',
@@ -151,7 +151,7 @@ const javaDemoExclustions = [
   '.vscode/',
   '*.iml',
 ];
-const commonExclusions = ['cdk.context.json', 'yarn-error.log', 'cdk.out', '.cdk.staging'];
+const commonExclusions = ['cdk.context.json', 'yarn-error.log', 'cdk.out', '.cdk.staging', '.DS_Store'];
 project.npmignore.exclude(...commonExclusions);
 project.gitignore.exclude(...commonExclusions);
 project.npmignore.exclude(...mavenExclusions);
