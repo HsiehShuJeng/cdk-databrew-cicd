@@ -6,15 +6,32 @@ This construct creates a **CodePipeline** pipeline where users can push a **Data
 [![Python](https://img.shields.io/pypi/pyversions/cdk-databrew-cicd)](https://pypi.org/) [![pip](https://img.shields.io/badge/pip%20install-cdk--databrew--cicd-blue)](https://pypi.org/project/cdk-databrew-cicd/)  
 [![npm version](https://img.shields.io/npm/v/cdk-databrew-cicd)](https://www.npmjs.com/package/cdk-databrew-cicd) [![pypi evrsion](https://img.shields.io/pypi/v/cdk-databrew-cicd)](https://pypi.org/project/cdk-databrew-cicd/) [![Maven](https://img.shields.io/maven-central/v/io.github.hsiehshujeng/cdk-databrew-cicd)](https://search.maven.org/search?q=a:cdk-databrew-cicd) [![nuget](https://img.shields.io/nuget/v/Databrew.Cicd)](https://www.nuget.org/packages/Databrew.Cicd/)   
 
+# Table of Contents  
+- [Serverless Architecture](#serverless-architecture)  
+- [Introduction](#introduction)  
+- [Example](#example)  
+  - [Typescript](#typescript)  
+  - [Python](#python)  
+  - [Java](#java)  
+  - [C#](#c)  
+- [Some Efforts after Stack Creation](some-efforts-after-stack-creation)  
+- [How Successful Commits Look Like](how-successful-commits-look-like)  
+
 
 # Serverless Architecture  
-![image](https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2021/05/19/image001.jpg)  
+![image](https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2021/05/19/image001.jpg) *Romi B. and Gaurav W., 2021*   
 
 # Introduction  
 The architecture was introduced by **Romi Boimer** and **Gaurav Wadhawan** and was posted on the AWS Blog as [*Set up CI/CD pipelines for AWS Glue DataBrew using AWS Developer Tools*](https://aws.amazon.com/tw/blogs/big-data/set-up-ci-cd-pipelines-for-aws-glue-databrew-using-aws-developer-tools/).  
-I converted the architecture into a CDK construct for 4 programming languages. Before applying the AWS construct, make sure you've set up a proper IAM role for the pre-production and production AWS accounts. You could achieve it either by creating manually or creating through a custom construct in this library.  
+I converted the architecture into a CDK construct for 4 programming languages. Before applying the AWS construct, make sure you've set up a proper IAM role for the pre-production and production AWS accounts. You could achieve it either by creating manually or creating through a custom construct in this library.   
 ```typescript
+import { IamRole } from 'cdk-databrew-cicd';
 
+new IamRole(this, 'AccountIamRole', {
+    environment: 'preproduction', // or 'production'
+    accountID: 'ACCOUNT_ID',
+    // roleName: 'OPTIONAL'
+});
 ``` 
 
 # Example  
@@ -234,8 +251,8 @@ namespace Csharp
 }
 ```
 
-## Some Efforts after Stack Creation  
-### CodeCommit  
+# Some Efforts after Stack Creation  
+## CodeCommit  
 1. Create HTTPS Git credentials for AWS CodeCommit with an IAM user that you're going to use.  
 ![image](https://raw.githubusercontent.com/HsiehShuJeng/cdk-databrew-cicd/main/images/codecommit_credentials.png)  
 2. Run through the steps noted on the README.md of the CodeCommit repository after finishing establishing the stack via CDK. The returned message with success should be looked like the following (assume you have installed [`git-remote-codecommit`](https://pypi.org/project/git-remote-codecommit/)):  
@@ -247,7 +264,7 @@ namespace Csharp
    ```  
 3. Add a DataBrew recipe into the local repositroy (directory) and commit the change. (either directly on the main branch or merging another branch into the main branch)  
 
-### Glue DataBrew  
+## Glue DataBrew  
 1. Download any recipe either generated out by following [*Getting started with AWS Glue DataBrew*](https://docs.aws.amazon.com/zh_tw/databrew/latest/dg/getting-started.html) or made by yourself as **JSON file**.  
    ![image](https://raw.githubusercontent.com/HsiehShuJeng/cdk-databrew-cicd/main/images/databrew_recipes.png)   
 2. Move the recipe from the download directory to the local directory for the CodeCommit repository.   
@@ -264,7 +281,7 @@ namespace Csharp
    ```
 4. Merge the branch into the main branch. Just go to the **AWS CodeCommit** web console to do the merge as its process is purely the same as you've already done thousands of times on **Github** but only with different UIs.  
 
-## How Successful Commits Look Like  
+# How Successful Commits Look Like  
 1. In the infrastructure account, the status of the CodePipeline DataBrew pipeline should be similar as the following:  
    ![image](https://raw.githubusercontent.com/HsiehShuJeng/cdk-databrew-cicd/main/images/infra_codepipeline.png)  
 1. In the **pre-production** account with the same region as where the CICD pipeline is deployed at the infrastructue account, you'll see this.  
