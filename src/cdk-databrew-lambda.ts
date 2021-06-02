@@ -1,9 +1,10 @@
-import * as path from 'path';
 import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
 import * as cdk from '@aws-cdk/core';
-import { doesFileExit } from './utilities';
+
+
+const functionScript = 'import os\r\nimport json\r\nimport zipfile\r\nimport boto3\r\nimport gzip\r\nfrom io import BytesIO\r\n\r\ndef get_clients():\r\n    s3_client = boto3.resource(\'s3\')\r\n    sts_connection = boto3.client(\'sts\')\r\n    cross_account = sts_connection.assume_role(RoleArn=os.environ[\'role\'],RoleSessionName=\"session\")\r\n    access_key = cross_account[\'Credentials\'][\'AccessKeyId\']\r\n    secrect_key = cross_account[\'Credentials\'][\'SecretAccessKey\']\r\n    session_token = cross_account[\'Credentials\'][\'SessionToken\']\r\n    databrew_client = boto3.client(\r\n        \'databrew\',\r\n        aws_access_key_id=access_key,\r\n        aws_secret_access_key=secrect_key,\r\n        aws_session_token=session_token,\r\n    )\r\n    return s3_client, databrew_client\r\n\r\ndef get_name_contents(event, s3_client):\r\n    s3_location = event[\'CodePipeline.job\'][\'data\'][\'inputArtifacts\'][0][\'location\'][\'s3Location\']\r\n    s3_bucket = s3_location[\'bucketName\']\r\n    s3_file = s3_location[\'objectKey\']\r\n    zip_obj = s3_client.Object(bucket_name=s3_bucket, key=s3_file)\r\n    # extracting compressed files\r\n    buffer = BytesIO(zip_obj.get()[\"Body\"].read())\r\n    file_name = \'\'\r\n    z = zipfile.ZipFile(buffer)\r\n    json_content = \'\'\r\n    for filename in z.namelist():\r\n        if filename.endswith(\'.json\'):\r\n            file_name = filename\r\n            with z.open(file_name) as content:\r\n                json_content = json.load(content)\r\n    return file_name.replace(\'.json\', \'\'), json_content\r\n\r\ndef lambda_handler(event, context):\r\n    codepipeline_client = boto3.client(\'codepipeline\')\r\n    job_id = event[\'CodePipeline.job\'][\'id\']\r\n    try:\r\n        # client creation\r\n        clients = get_clients()\r\n        s3_client = clients[0]\r\n        databrew_client = clients[1]\r\n        # getting file name and contents\r\n        name_contents = get_name_contents(event, s3_client)\r\n        recipe_lists = databrew_client.list_recipes(MaxResults=99)\r\n        if name_contents[0] not in (x[\'Name\'] for x in recipe_lists[\'Recipes\']):\r\n            databrew_client.create_recipe(Name=name_contents[0], Steps=name_contents[1])\r\n        # updating recipe\r\n        databrew_client.update_recipe(Description=\'updating recipe\',Name=name_contents[0],Steps= name_contents[1])\r\n        # publishing a recipe\r\n        databrew_client.publish_recipe(Description=\'publishing recipe\', Name=name_contents[0])\r\n        # Notify AWS CodePipeline of a successful job\r\n        codepipeline_client.put_job_success_result(jobId=job_id)\r\n    except Exception as e:\r\n        # Notifying pipeline of a failure\r\n        codepipeline_client.put_job_failure_result(jobId=job_id,failureDetails={\'type\': \'JobFailed\',\'message\': str(e)})';
 
 export interface PreProductionLambdaProps {
   /**
@@ -82,14 +83,12 @@ export class PreProductionLambda extends cdk.Construct {
       roleName: this.roleName,
     });
 
-    const fixedSuffix = 'resources/preproduction';
-    const assetPath = doesFileExit(path.join(__dirname, fixedSuffix)) ? path.join(__dirname, fixedSuffix) : path.join(__dirname, `../src/${fixedSuffix}`);
     const preproductionFunction = new lambda.Function(this, 'PreProductionFunction', {
       functionName: this.functionName,
       description: 'Read from latest commit and publish AWS Glue DataBrew recipe to pre-prod account',
       logRetention: logs.RetentionDays.THREE_MONTHS,
       runtime: lambda.Runtime.PYTHON_3_8,
-      code: lambda.Code.fromAsset(assetPath),
+      code: lambda.Code.fromInline(functionScript),
       handler: 'index.lambda_handler',
       environment: { role: props.preproductionIamRoleArn },
       memorySize: 128,
@@ -180,14 +179,12 @@ export class ProductionLambda extends cdk.Construct {
       roleName: this.roleName,
     });
 
-    const fixedSuffix = 'resources/production';
-    const assetPath = doesFileExit(path.join(__dirname, fixedSuffix)) ? path.join(__dirname, fixedSuffix) : path.join(__dirname, `../src/${fixedSuffix}`);
     const productionFunction = new lambda.Function(this, 'ProductionFunction', {
       functionName: this.functionName,
       description: 'Read from latest commit and publish AWS Glue DataBrew recipe to production account',
       logRetention: logs.RetentionDays.THREE_MONTHS,
       runtime: lambda.Runtime.PYTHON_3_8,
-      code: lambda.Code.fromAsset(assetPath),
+      code: lambda.Code.fromInline(functionScript),
       handler: 'index.lambda_handler',
       environment: { role: props.productionIamRoleArn },
       memorySize: 128,
@@ -262,14 +259,12 @@ export class FirstCommitHandler extends cdk.Construct {
       },
     });
 
-    const fixedSuffix = 'resources/FirstCommitHandler';
-    const assetPath = doesFileExit(path.join(__dirname, fixedSuffix)) ? path.join(__dirname, fixedSuffix) : path.join(__dirname, `../src/${fixedSuffix}`);
     const commitHandlerFunction = new lambda.Function(this, 'CommitHandlerFunction', {
       functionName: this.functionName,
       description: 'Read from latest commit and publish AWS Glue DataBrew recipe to production account',
       logRetention: logs.RetentionDays.THREE_MONTHS,
       runtime: lambda.Runtime.PYTHON_3_8,
-      code: lambda.Code.fromAsset(assetPath),
+      code: lambda.Code.fromInline('import os\r\nimport json\r\nimport boto3\r\nimport cfnresponse\r\n\r\ndef lambda_handler(event, context):\r\n    if(event[\'RequestType\'] == \'Create\'):\r\n        code_commit_client = boto3.client(\'codecommit\')\r\n        code_commit_client.create_commit(repositoryName=os.environ[\'repo_name\'],branchName=os.environ[\'branch_name\'],commitMessage=\'Initial Commit\',putFiles=[{\'filePath\': \'README.md\',\'fileMode\': \'NORMAL\',\'fileContent\': os.environ[\'readme_contents\']}])\r\n    responseValue = 120\r\n    responseData = {}\r\n    responseData[\'Data\'] = responseValue\r\n    cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)'),
       handler: 'index.lambda_handler',
       memorySize: 128,
       role: lambdaRole,

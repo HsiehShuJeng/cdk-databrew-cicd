@@ -218,11 +218,6 @@ test('Lambda test', () => {
 
   expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::Lambda::Function', 3);
   expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
-    Code: {
-      S3Bucket: {
-        Ref: 'AssetParameters2e0ce88e91ebda0ec972a6aeabf9e46df85a7acf2ccba06e70b8af35ffb3620eS3Bucket0FF07C31',
-      },
-    },
     Role: {
       'Fn::GetAtt': [
         'PreProductionLambdaPreproductionFunctionRole725F0407',
@@ -239,11 +234,6 @@ test('Lambda test', () => {
     },
   });
   expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
-    Code: {
-      S3Bucket: {
-        Ref: 'AssetParameterse80c35f1a3e64d5fbb0b7badb1535c5a169d3e9147974359806713501ae12c85S3Bucket78AFA6CD',
-      },
-    },
     Role: {
       'Fn::GetAtt': [
         'ProductionLambdaProductionFunctionRoleC7B3DEF1',
@@ -261,11 +251,6 @@ test('Lambda test', () => {
   expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
     Handler: 'index.handler',
     Runtime: 'nodejs12.x',
-    Code: {
-      S3Bucket: {
-        Ref: 'AssetParameters67b7823b74bc135986aa72f889d6a8da058d0c4a20cbc2dfc6f78995fdd2fc24S3Bucket4D46ABB5',
-      },
-    },
     Role: {
       'Fn::GetAtt': [
         'LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB',

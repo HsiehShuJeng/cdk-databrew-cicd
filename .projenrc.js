@@ -44,6 +44,8 @@ const project = new AwsCdkConstructLibrary({
     'esbuild',
     'source-map-support',
   ],
+  tsconfig: { include: ['src/**/*.ts', 'src/**.*.py'], compilerOptions: {} },
+
 
   npmAccess: NpmAccess.PUBLIC,
 
@@ -158,5 +160,4 @@ project.npmignore.exclude(...pythonDemoExclustions);
 project.gitignore.exclude(...pythonDemoExclustions);
 project.npmignore.exclude(...javaDemoExclustions);
 project.gitignore.exclude(...javaDemoExclustions);
-
 project.synth();
