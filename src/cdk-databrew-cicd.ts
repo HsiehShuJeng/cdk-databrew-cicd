@@ -157,11 +157,13 @@ export class DataBrewCodePipeline extends cdk.Construct {
 
     const sourceAction = this.createSourceAction(codeCommitRepo, pipelineRole.role);
     const preproductionLambdaAction = new codepipeline_actions.LambdaInvokeAction({
+      inputs: [new codepipeline.Artifact(this.firstStageArtifactName)],
       actionName: 'PreProd-DeployRecipe',
       lambda: preproductionLambda.function,
       role: pipelineRole.role,
     });
     const productionLambdaAction = new codepipeline_actions.LambdaInvokeAction({
+      inputs: [new codepipeline.Artifact(this.firstStageArtifactName)],
       actionName: 'Prod-DeployRecipe',
       lambda: productionLambda.function,
       role: pipelineRole.role,

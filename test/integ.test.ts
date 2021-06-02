@@ -247,6 +247,7 @@ test('IamRole', () => {
     ],
   });
   expect(SynthUtils.toCloudFormation(infraStack)).toHaveResource('AWS::IAM::Policy', {
+    PolicyName: 'DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleDefaultPolicyCF285214',
     PolicyDocument: {
       Statement: [
         {
@@ -441,6 +442,36 @@ test('IamRole', () => {
           },
         },
         {
+          Action: [
+            's3:GetObject*',
+            's3:GetBucket*',
+            's3:List*',
+          ],
+          Effect: 'Allow',
+          Resource: [
+            {
+              'Fn::GetAtt': [
+                'DataBrewCicdPipelineCodePipelineBucket8E660891',
+                'Arn',
+              ],
+            },
+            {
+              'Fn::Join': [
+                '',
+                [
+                  {
+                    'Fn::GetAtt': [
+                      'DataBrewCicdPipelineCodePipelineBucket8E660891',
+                      'Arn',
+                    ],
+                  },
+                  '/*',
+                ],
+              ],
+            },
+          ],
+        },
+        {
           Action: 'lambda:InvokeFunction',
           Effect: 'Allow',
           Resource: {
@@ -453,7 +484,6 @@ test('IamRole', () => {
       ],
       Version: '2012-10-17',
     },
-    PolicyName: 'DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleDefaultPolicyCF285214',
     Roles: [
       {
         Ref: 'DataBrewCicdPipelineDataBrewCodePipelineRoleCodePipelineIamRoleE9975511',

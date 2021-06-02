@@ -237,6 +237,11 @@ Object {
                     "Ref": "DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05",
                   },
                 },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SourceOutput",
+                  },
+                ],
                 "Name": "PreProd-DeployRecipe",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
@@ -263,6 +268,11 @@ Object {
                     "Ref": "DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C",
                   },
                 },
+                "InputArtifacts": Array [
+                  Object {
+                    "Name": "SourceOutput",
+                  },
+                ],
                 "Name": "Prod-DeployRecipe",
                 "RoleArn": Object {
                   "Fn::GetAtt": Array [
@@ -602,6 +612,36 @@ Object {
                   "Arn",
                 ],
               },
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
             },
             Object {
               "Action": "lambda:InvokeFunction",

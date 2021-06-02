@@ -11,7 +11,8 @@ A demonstration of CICD with AWS Databrew
    Cloning into 'DataBrew-Recipes-Repo'...
    remote: Counting objects: 6, done.
    Unpacking objects: 100% (6/6), 2.03 KiB | 138.00 KiB/s, done.
-   ```
+   ```  
+3. Add a DataBrew recipe into the local repositroy (directory) and commit the change. (either directly on the main branch or merging another branch into the main branch)  
 
 ### Glue DataBrew  
 1. Download any recipe either generated out by following [*Getting started with AWS Glue DataBrew*](https://docs.aws.amazon.com/zh_tw/databrew/latest/dg/getting-started.html) or made by yourself as **JSON file**.  
@@ -31,6 +32,8 @@ A demonstration of CICD with AWS Databrew
 4. Merge the branch into the main branch. Just go to the **AWS CodeCommit** web console to do the merge as its process is purely the same as you've already done thousands of times on **Github** but only with different UIs.  
 
 ## How Successful Commits Look Like  
+1. In the infrastructure account, the status of the CodePipeline DataBrew pipeline should be similar as the following:  
+   ![image](./images/infra_codepipeline.png)  
 1. In the **pre-production** account with the same region as where the CICD pipeline is deployed at the infrastructue account, you'll see this.  
    ![image](./images/preproduction-recipe.png)  
 2. In the **production** account with the same region as where the CICD pipeline is deployed at the infrastructue account, you'll see this.   
