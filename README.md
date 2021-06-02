@@ -1,9 +1,21 @@
 # cdk-databrew-cicd
-A demonstration of CICD with AWS Databrew  
+This construct creates a **CodePipeline** pipeline where users can push a **DataBrew** recipe into the **CodeCommit** repository and the recipe will be pushed to a pre-production AWS account and a production AWS account by order automatically.  
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-green)](https://opensource.org/licenses/Apache-2.0)  
 [![Build](https://github.com/HsiehShuJeng/cdk-databrew-cicd/actions/workflows/build.yml/badge.svg)](https://github.com/HsiehShuJeng/cdk-databrew-cicd/actions/workflows/build.yml) [![Release](https://github.com/HsiehShuJeng/cdk-databrew-cicd/workflows/Release/badge.svg)](https://github.com/HsiehShuJeng/cdk-databrew-cicd/actions/workflows/release.yml)  
 [![Python](https://img.shields.io/pypi/pyversions/cdk-databrew-cicd)](https://pypi.org/) [![pip](https://img.shields.io/badge/pip%20install-cdk--databrew--cicd-blue)](https://pypi.org/project/cdk-databrew-cicd/)  
-[![npm version](https://img.shields.io/npm/v/cdk-databrew-cicd)](https://www.npmjs.com/package/cdk-databrew-cicd) [![pypi evrsion](https://img.shields.io/pypi/v/cdk-databrew-cicd)](https://pypi.org/project/cdk-databrew-cicd/) [![Maven](https://img.shields.io/maven-central/v/io.github.hsiehshujeng/cdk-databrew-cicd)](https://search.maven.org/search?q=a:cdk-databrew-cicd) [![nuget](https://img.shields.io/nuget/v/Databrew.Cicd)](https://www.nuget.org/packages/Databrew.Cicd/)  
+[![npm version](https://img.shields.io/npm/v/cdk-databrew-cicd)](https://www.npmjs.com/package/cdk-databrew-cicd) [![pypi evrsion](https://img.shields.io/pypi/v/cdk-databrew-cicd)](https://pypi.org/project/cdk-databrew-cicd/) [![Maven](https://img.shields.io/maven-central/v/io.github.hsiehshujeng/cdk-databrew-cicd)](https://search.maven.org/search?q=a:cdk-databrew-cicd) [![nuget](https://img.shields.io/nuget/v/Databrew.Cicd)](https://www.nuget.org/packages/Databrew.Cicd/)   
+
+
+# Serverless Architecture  
+![image](https://d2908q01vomqb2.cloudfront.net/b6692ea5df920cad691c20319a6fffd7a4a766b8/2021/05/19/image001.jpg)  
+
+# Introduction  
+The architecture was introduced by **Romi Boimer** and **Gaurav Wadhawan** and was posted on the AWS Blog as [*Set up CI/CD pipelines for AWS Glue DataBrew using AWS Developer Tools*](https://aws.amazon.com/tw/blogs/big-data/set-up-ci-cd-pipelines-for-aws-glue-databrew-using-aws-developer-tools/).  
+I converted the architecture into a CDK construct for 4 programming languages. Before applying the AWS construct, make sure you've set up a proper IAM role for the pre-production and production AWS accounts. You could achieve it either by creating manually or creating through a custom construct in this library.  
+```typescript
+
+``` 
 
 # Example  
 ## Typescript  
