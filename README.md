@@ -14,8 +14,8 @@ This construct creates a **CodePipeline** pipeline where users can push a **Data
   - [Python](#python)  
   - [Java](#java)  
   - [C#](#c)  
-- [Some Efforts after Stack Creation](some-efforts-after-stack-creation)  
-- [How Successful Commits Look Like](how-successful-commits-look-like)  
+- [Some Efforts after Stack Creation](#some-efforts-after-stack-creation)  
+- [How Successful Commits Look Like](#how-successful-commits-look-like)  
 
 
 # Serverless Architecture  
