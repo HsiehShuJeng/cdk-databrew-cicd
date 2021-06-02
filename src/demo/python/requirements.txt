@@ -1,2 +1,2 @@
 aws-cdk.core
-cdk_databrew_cicd
+cdk-databrew-cicd

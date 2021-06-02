@@ -7,13 +7,13 @@ class PythonStack(cdk.Stack):
     def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        preproduction_account_id = "PREPRODUCTION_ACCOUNT_ID"
-        production_account_id = "PRODUCTION_ACCOUNT_ID"
+        preproduction_account_id = "795886447637"
+        production_account_id = "205419761841"
 
         databrew_pipeline = DataBrewCodePipeline(self,
         "DataBrewCicdPipeline",
-            preproduction_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{preproduction_account_id}:role/preproduction-Databrew-Cicd-Role",
-            production_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{production_account_id}:role/preproduction-Databrew-Cicd-Role",
+        preproduction_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{preproduction_account_id}:role/preproduction-Databrew-Cicd-Role",
+        production_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{production_account_id}:role/preproduction-Databrew-Cicd-Role",
             # bucket_name="OPTIONAL",
             # repo_name="OPTIONAL",
             # repo_name="OPTIONAL",
@@ -21,7 +21,7 @@ class PythonStack(cdk.Stack):
             # pipeline_name="OPTIONAL"
             )
 
-        cdk.CfnOutput(self, 'OPreproductionLambdaArn', value=databrew_pipeline.preproductionFunctionArn)
-        cdk.CfnOutput(self, 'OProductionLambdaArn', value=databrew_pipeline.productionFunctionArn)
-        cdk.CfnOutput(self, 'OCodeCommitRepoArn', value=databrew_pipeline.codeCommitRepoArn)
-        cdk.CfnOutput(self, 'OCodePipelineArn', value=databrew_pipeline.codePipelineArn)
+        cdk.CfnOutput(self, 'OPreproductionLambdaArn', value=databrew_pipeline.preproduction_function_arn)
+        cdk.CfnOutput(self, 'OProductionLambdaArn', value=databrew_pipeline.production_function_arn)
+        cdk.CfnOutput(self, 'OCodeCommitRepoArn', value=databrew_pipeline.code_commit_repo_arn)
+        cdk.CfnOutput(self, 'OCodePipelineArn', value=databrew_pipeline.code_pipeline_arn)

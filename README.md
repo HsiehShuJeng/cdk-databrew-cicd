@@ -57,14 +57,13 @@ $ cdk init --language python
 $ source .venv/bin/activate
 $ cat <<EOL > requirements.txt
 aws-cdk.core
-cdk_databrew_cicd
+cdk-databrew-cicd
 EOL
 $ python -m pip install -r requirements.txt
 ```  
 ```python
 from aws_cdk import core as cdk
 from cdk_databrew_cicd import DataBrewCodePipeline
-
 
 class PythonStack(cdk.Stack):
 
@@ -76,8 +75,8 @@ class PythonStack(cdk.Stack):
 
         databrew_pipeline = DataBrewCodePipeline(self,
         "DataBrewCicdPipeline",
-            preproduction_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{preproduction_account_id}:role/preproduction-Databrew-Cicd-Role",
-            production_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{production_account_id}:role/preproduction-Databrew-Cicd-Role",
+        preproduction_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{preproduction_account_id}:role/preproduction-Databrew-Cicd-Role",
+        production_iam_role_arn=f"arn:{cdk.Aws.PARTITION}:iam::{production_account_id}:role/preproduction-Databrew-Cicd-Role",
             # bucket_name="OPTIONAL",
             # repo_name="OPTIONAL",
             # repo_name="OPTIONAL",
@@ -85,11 +84,10 @@ class PythonStack(cdk.Stack):
             # pipeline_name="OPTIONAL"
             )
 
-        cdk.CfnOutput(self, 'OPreproductionLambdaArn', value=databrew_pipeline.preproductionFunctionArn)
-        cdk.CfnOutput(self, 'OProductionLambdaArn', value=databrew_pipeline.productionFunctionArn)
-        cdk.CfnOutput(self, 'OCodeCommitRepoArn', value=databrew_pipeline.codeCommitRepoArn)
-        cdk.CfnOutput(self, 'OCodePipelineArn', value=databrew_pipeline.codePipelineArn)
-
+        cdk.CfnOutput(self, 'OPreproductionLambdaArn', value=databrew_pipeline.preproduction_function_arn)
+        cdk.CfnOutput(self, 'OProductionLambdaArn', value=databrew_pipeline.production_function_arn)
+        cdk.CfnOutput(self, 'OCodeCommitRepoArn', value=databrew_pipeline.code_commit_repo_arn)
+        cdk.CfnOutput(self, 'OCodePipelineArn', value=databrew_pipeline.code_pipeline_arn)
 ```
 ```bash
 $ deactivate
@@ -105,8 +103,8 @@ $ mvn package
 .
 <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <cdk.version>1.105.0</cdk.version>
-      <constrcut.verion>0.1.6</constrcut.verion>
+      <cdk.version>1.107.0</cdk.version>
+      <constrcut.verion>0.1.4</constrcut.verion>
       <junit.version>5.7.1</junit.version>
 </properties>
  .
@@ -119,15 +117,10 @@ $ mvn package
             <version>${cdk.version}</version>
       </dependency>
       <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>lambda</artifactId>
-            <version>${cdk.version}</version>
-      </dependency>
-      <dependency>
-            <groupId>io.github.hsiehshujeng</groupId>
-            <artifactId>cdk-lambda-subminute</artifactId>
-            <version>${constrcut.verion}</version>
-      </dependency>
+        <groupId>io.github.hsiehshujeng</groupId>
+        <artifactId>cdk-databrew-cicd</artifactId>
+        <version>${constrcut.verion}</version>
+        </dependency>
      .
      .
      .
@@ -141,12 +134,8 @@ import software.amazon.awscdk.core.CfnOutputProps;
 import software.amazon.awscdk.core.Construct;
 import software.amazon.awscdk.core.Stack;
 import software.amazon.awscdk.core.StackProps;
-import software.amazon.awscdk.services.lambda.Code;
-import software.amazon.awscdk.services.lambda.Function;
-import software.amazon.awscdk.services.lambda.FunctionProps;
-import software.amazon.awscdk.services.lambda.Runtime;
-import io.github.hsiehshujeng.cdk.lambda.subminute.LambdaSubminute;
-import io.github.hsiehshujeng.cdk.lambda.subminute.LambdaSubminuteProps;
+import io.github.hsiehshujeng.cdk.databrew.cicd.DataBrewCodePipeline;
+import io.github.hsiehshujeng.cdk.databrew.cicd.DataBrewCodePipelineProps;
 
 public class JavaStack extends Stack {
     public JavaStack(final Construct scope, final String id) {
@@ -155,33 +144,34 @@ public class JavaStack extends Stack {
 
     public JavaStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
+        String preproductionAccountId = "PREPRODUCTION_ACCOUNT_ID";
+        String productionAccountId = "PRODUCTION_ACCOUNT_ID";
+        DataBrewCodePipeline databrewPipeline = new DataBrewCodePipeline(this, "DataBrewCicdPipeline",
+                DataBrewCodePipelineProps.builder().preproductionIamRoleArn(preproductionAccountId)
+                        .productionIamRoleArn(productionAccountId)
+                        // .bucketName("OPTIONAL")
+                        // .branchName("OPTIONAL")
+                        // .pipelineName("OPTIONAL")
+                        .build());
 
-        Function targetLambda = new Function(this, "targetFunction", 
-          FunctionProps.builder()
-              .code(Code.fromInline("exports.handler = function(event, ctx, cb) { return cb(null, \"hi\"); })"))
-              .functionName("estTargetFunction")
-              .runtime(Runtime.NODEJS_12_X)
-              .handler("index.handler")
-              .build());
-        String cronJobExample = "cron(50/1 4-5 ? * SUN-SAT *)";
-        LambdaSubminute subminuteMaster = new LambdaSubminute(this, "LambdaSubminute", LambdaSubminuteProps.builder()
-              .targetFunction(targetLambda)
-              .cronjobExpression(cronJobExample)
-              .frequency(6)
-              .intervalTime(9)
-              .build());
-
-        new CfnOutput(this, "OStateMachineArn",
+        new CfnOutput(this, "OPreproductionLambdaArn",
                 CfnOutputProps.builder()
-                  .value(subminuteMaster.getStateMachineArn())
-                  .build());
-        new CfnOutput(this, "OIteratorFunctionArn",
+                    .value(databrewPipeline.getPreproductionFunctionArn())
+                    .build());
+        new CfnOutput(this, "OProductionLambdaArn",
                 CfnOutputProps.builder()
-                  .value(subminuteMaster.getIteratorFunction().getFunctionName())
-                  .build());
+                    .value(databrewPipeline.getProductionFunctionArn())
+                    .build());
+        new CfnOutput(this, "OCodeCommitRepoArn",
+                CfnOutputProps.builder()
+                    .value(databrewPipeline.getCodeCommitRepoArn())
+                    .build());
+        new CfnOutput(this, "OCodePipelineArn",
+                CfnOutputProps.builder()
+                    .value(databrewPipeline.getCodePipelineArn())
+                    .build());
     }
 }
-
 ```
 ## C#  
 You could also refer to [here](https://github.com/HsiehShuJeng/cdk-lambda-subminute/tree/main/src/demo/csharp).  
