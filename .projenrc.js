@@ -6,10 +6,18 @@ const project = new AwsCdkConstructLibrary({
   authorName: 'Shu-Jeng Hsieh',
   authorAddress: 'https://fantasticsie.medium.com/',
   keywords: [
+    'aws-cloudwatch',
     'aws-codecommit',
+    'aws-codepipeline',
+    'aws-databrew',
+    'aws-lambda',
+    'cicd',
     'serverless',
     'scott.hsieh',
   ],
+  catalog: {
+    twitter: 'fantasticHsieh',
+  },
 
   cdkVersion: '1.106.1',
   defaultReleaseBranch: 'main',
