@@ -7,7 +7,7 @@ A demonstration of CICD with AWS Databrew
 
 # Example  
 ## Typescript  
-You could also refer to [here](https://github.com/HsiehShuJeng/cdk-lambda-subminute/tree/main/src/demo/typescript).    
+You could also refer to [here](https://github.com/HsiehShuJeng/cdk-databrew-cicd/tree/main/src/demo/typescript).    
 ```bash
 $ cdk --init language typescript
 $ yarn add cdk-databrew-cicd
@@ -45,7 +45,7 @@ new TypescriptStack(app, 'TypescriptStack', {
 });
 ```
 ## Python
-You could also refer to [here](https://github.com/HsiehShuJeng/cdk-lambda-subminute/tree/main/src/demo/python).   
+You could also refer to [here](https://github.com/HsiehShuJeng/cdk-databrew-cicd/tree/main/src/demo/python).   
 ```bash
 # upgrading related Python packages
 $ python -m ensurepip --upgrade
@@ -93,7 +93,7 @@ class PythonStack(cdk.Stack):
 $ deactivate
 ```
 ## Java  
-You could also refer to [here](https://github.com/HsiehShuJeng/cdk-lambda-subminute/tree/main/src/demo/java).  
+You could also refer to [here](https://github.com/HsiehShuJeng/cdk-databrew-cicd/tree/main/src/demo/java).  
 ```bash
 $ cdk init --language java
 $ mvn package
@@ -174,15 +174,13 @@ public class JavaStack extends Stack {
 }
 ```
 ## C#  
-You could also refer to [here](https://github.com/HsiehShuJeng/cdk-lambda-subminute/tree/main/src/demo/csharp).  
+You could also refer to [here](https://github.com/HsiehShuJeng/cdk-databrew-cicd/tree/main/src/demo/csharp).  
 ```bash
 $ cdk init --language csharp
-$ dotnet add src/Csharp package Amazon.CDK.AWS.Lambda
-$ dotnet add src/Csharp package Lambda.Subminute --version 0.1.6
+$ dotnet add src/Csharp package Databrew.Cicd --version 0.1.4
 ```
 ```cs
 using Amazon.CDK;
-using Amazon.CDK.AWS.Lambda;
 using ScottHsieh.Cdk;
 
 namespace Csharp
@@ -191,29 +189,33 @@ namespace Csharp
     {
         internal CsharpStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
-            var targetLambda = new Function(this, "targetFunction", new FunctionProps
+            var preproductionAccountId = "PREPRODUCTION_ACCOUNT_ID";
+            var productionAccountId = "PRODUCTION_ACCOUNT_ID";
+
+            var dataBrewPipeline = new DataBrewCodePipeline(this, "DataBrewCicdPipeline", new DataBrewCodePipelineProps
             {
-                Code = Code.FromInline("exports.handler = function(event, ctx, cb) { return cb(null, \"hi\"); })"),
-                FunctionName = "testTargetFunction",
-                Runtime = Runtime.NODEJS_12_X,
-                Handler = "index.handler"
+                PreproductionIamRoleArn = $"arn:{Aws.PARTITION}:iam::{preproductionAccountId}:role/preproduction-Databrew-Cicd-Role",
+                ProductionIamRoleArn = $"arn:{Aws.PARTITION}:iam::{productionAccountId}:role/preproduction-Databrew-Cicd-Role",
+                // BucketName = "OPTIONAL",
+                // RepoName = "OPTIONAL",
+                // BranchName = "OPTIONAL",
+                // PipelineName = "OPTIONAL"
             });
-            string cronJobExample = "cron(50/1 6-7 ? * SUN-SAT *)";
-            var subminuteMaster = new LambdaSubminute(this, "LambdaSubminute", new LambdaSubminuteProps
+            new CfnOutput(this, "OPreproductionLambdaArn", new CfnOutputProps
             {
-                TargetFunction = targetLambda,
-                CronjobExpression = cronJobExample,
-                Frequency = 10,
-                IntervalTime = 6,
+                Value = dataBrewPipeline.PreproductionFunctionArn
             });
-        
-            new CfnOutput(this, "OStateMachineArn", new CfnOutputProps
+            new CfnOutput(this, "OProductionLambdaArn", new CfnOutputProps
             {
-                Value = subminuteMaster.StateMachineArn
+                Value = dataBrewPipeline.ProductionFunctionArn
             });
-            new CfnOutput(this, "OIteratorFunctionArn", new CfnOutputProps
+            new CfnOutput(this, "OCodeCommitRepoArn", new CfnOutputProps
             {
-                Value = subminuteMaster.IteratorFunction.FunctionArn
+                Value = dataBrewPipeline.CodeCommitRepoArn
+            });
+            new CfnOutput(this, "OCodePipelineArn", new CfnOutputProps
+            {
+                Value = dataBrewPipeline.CodeCommitRepoArn
             });
         }
     }

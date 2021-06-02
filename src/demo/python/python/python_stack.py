@@ -7,8 +7,8 @@ class PythonStack(cdk.Stack):
     def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        preproduction_account_id = "795886447637"
-        production_account_id = "205419761841"
+        preproduction_account_id = "PREPRODUCTION_ACCOUNT_ID"
+        production_account_id = "PRODUCTION_ACCOUNT_ID"
 
         databrew_pipeline = DataBrewCodePipeline(self,
         "DataBrewCicdPipeline",
