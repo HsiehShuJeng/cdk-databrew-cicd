@@ -8,7 +8,6 @@ import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 import { FirstCommitHandler, PreProductionLambda, ProductionLambda } from './cdk-databrew-lambda';
 
-
 export interface DataBrewCodePipelineProps {
   /**
      * The ARN of the IAM role in the pre-production account.
