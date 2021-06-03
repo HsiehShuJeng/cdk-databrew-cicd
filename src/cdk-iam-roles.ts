@@ -5,17 +5,17 @@ export interface IamRoleProps {
   /**
      * 'preproduction' or 'production'
      */
-  environment: string;
+  readonly environment: string;
   /**
      * The ID of your infrastructure account
      */
-  accountID: string;
+  readonly accountID: string;
   /**
      * The role name.
      *
      * @default '{environment}-Databrew-Cicd-Role'
      */
-  roleName?: string;
+  readonly roleName?: string;
 }
 /**
  * IAM Role.
