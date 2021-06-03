@@ -6,16 +6,17 @@ const project = new AwsCdkConstructLibrary({
   authorName: 'Shu-Jeng Hsieh',
   authorAddress: 'https://fantasticsie.medium.com/',
   keywords: [
-    'aws-cloudwatch',
-    'aws-codecommit',
-    'aws-codepipeline',
-    'aws-databrew',
-    'aws-lambda',
+    'cloudwatch',
+    'codecommit',
+    'codepipeline',
+    'databrew',
+    'lambda',
     'cicd',
     'serverless',
     'scott.hsieh',
   ],
   catalog: {
+    announce: true,
     twitter: 'fantasticHsieh',
   },
 
