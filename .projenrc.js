@@ -6,6 +6,8 @@ const project = new AwsCdkConstructLibrary({
   authorName: 'Shu-Jeng Hsieh',
   authorAddress: 'https://fantasticsie.medium.com/',
   keywords: [
+    'aws',
+    'cdk',
     'cloudwatch',
     'codecommit',
     'codepipeline',
