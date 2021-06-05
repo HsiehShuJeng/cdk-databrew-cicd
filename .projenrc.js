@@ -52,10 +52,10 @@ const project = new AwsCdkConstructLibrary({
 
   npmAccess: NpmAccess.PUBLIC,
 
-  mergify: false,
+  mergify: true,
   docgen: true,
   eslint: true,
-  dependabot: false,
+  dependabot: true,
 
   defaultReleaseBranch: 'main',
 
@@ -91,48 +91,48 @@ project.eslint.addOverride({
   rules: { '@typescript-eslint/no-require-imports': 0 },
 });
 
-const mergifyRules = [
-  {
-    name: 'Automatic merge on approval and successful build',
-    actions: {
-      merge: {
-        method: 'squash',
-        commit_message: 'title+body',
-        strict: 'smart',
-        strict_method: 'merge',
-      },
-      delete_head_branch: {},
-    },
-    conditions: [
-      '#approved-reviews-by>=1',
-      'status-success=build',
-      '-title~=(WIP|wip)',
-      '-label~=(blocked|do-not-merge)',
-    ],
-  },
-  {
-    name: 'Automatic merge PRs with auto-merge label upon successful build',
-    actions: {
-      merge: {
-        method: 'squash',
-        commit_message: 'title+body',
-        strict: 'smart',
-        strict_method: 'merge',
-      },
-      delete_head_branch: {},
-    },
-    conditions: [
-      'label=auto-merge',
-      'status-success=build',
-      '-title~=(WIP|wip)',
-      '-label~=(blocked|do-not-merge)',
-    ],
-  },
-];
+// const mergifyRules = [
+//   {
+//     name: 'Automatic merge on approval and successful build',
+//     actions: {
+//       merge: {
+//         method: 'squash',
+//         commit_message: 'title+body',
+//         strict: 'smart',
+//         strict_method: 'merge',
+//       },
+//       delete_head_branch: {},
+//     },
+//     conditions: [
+//       '#approved-reviews-by>=1',
+//       'status-success=build',
+//       '-title~=(WIP|wip)',
+//       '-label~=(blocked|do-not-merge)',
+//     ],
+//   },
+//   {
+//     name: 'Automatic merge PRs with auto-merge label upon successful build',
+//     actions: {
+//       merge: {
+//         method: 'squash',
+//         commit_message: 'title+body',
+//         strict: 'smart',
+//         strict_method: 'merge',
+//       },
+//       delete_head_branch: {},
+//     },
+//     conditions: [
+//       'label=auto-merge',
+//       'status-success=build',
+//       '-title~=(WIP|wip)',
+//       '-label~=(blocked|do-not-merge)',
+//     ],d
+//   },
+// ];
 
-new Mergify(project.github, {
-  rules: mergifyRules,
-});
+// new Mergify(project.github, {
+//   rules: mergifyRules,
+// });
 
 const mavenExclusions = ['public.pem', 'private.pem'];
 const pythonDemoExclustions = [
