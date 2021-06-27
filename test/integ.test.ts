@@ -683,77 +683,76 @@ test('IamRole', () => {
 
   expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::S3::BucketPolicy', 1);
   expect(SynthUtils.toCloudFormation(infraStack)).toHaveResourceLike('AWS::S3::BucketPolicy', {
-    Bucket: {
-      Ref: 'DataBrewCicdPipelineCodePipelineBucket8E660891',
+    "Bucket": {
+      "Ref": "DataBrewCicdPipelineCodePipelineBucket8E660891"
     },
-    PolicyDocument: {
-      Statement: [
+    "PolicyDocument": {
+      "Statement": [
         {
-          Action: [
-            's3:GetObject*',
-            's3:GetBucket*',
-            's3:List*',
-            's3:DeleteObject*',
+          "Action": [
+            "s3:GetBucket*",
+            "s3:List*",
+            "s3:DeleteObject*"
           ],
-          Effect: 'Allow',
-          Principal: {
-            AWS: {
-              'Fn::GetAtt': [
-                'CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092',
-                'Arn',
-              ],
-            },
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": {
+              "Fn::GetAtt": [
+                "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                "Arn"
+              ]
+            }
           },
-          Resource: [
+          "Resource": [
             {
-              'Fn::GetAtt': [
-                'DataBrewCicdPipelineCodePipelineBucket8E660891',
-                'Arn',
-              ],
+              "Fn::GetAtt": [
+                "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                "Arn"
+              ]
             },
             {
-              'Fn::Join': [
-                '',
+              "Fn::Join": [
+                "",
                 [
                   {
-                    'Fn::GetAtt': [
-                      'DataBrewCicdPipelineCodePipelineBucket8E660891',
-                      'Arn',
-                    ],
+                    "Fn::GetAtt": [
+                      "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                      "Arn"
+                    ]
                   },
-                  '/*',
-                ],
-              ],
-            },
-          ],
+                  "/*"
+                ]
+              ]
+            }
+          ]
         },
         {
-          Action: 's3:PutObject',
-          Condition: {
-            StringNotEquals: {
-              's3:x-amz-server-side-encryption': 'aws:kms',
-            },
+          "Action": "s3:PutObject",
+          "Condition": {
+            "StringNotEquals": {
+              "s3:x-amz-server-side-encryption": "aws:kms"
+            }
           },
-          Effect: 'Deny',
-          Principal: '*',
-          Resource: {
-            'Fn::Join': [
-              '',
+          "Effect": "Deny",
+          "Principal": "*",
+          "Resource": {
+            "Fn::Join": [
+              "",
               [
                 {
-                  'Fn::GetAtt': [
-                    'DataBrewCicdPipelineCodePipelineBucket8E660891',
-                    'Arn',
-                  ],
+                  "Fn::GetAtt": [
+                    "DataBrewCicdPipelineCodePipelineBucket8E660891",
+                    "Arn"
+                  ]
                 },
-                '/*',
-              ],
-            ],
+                "/*"
+              ]
+            ]
           },
-          Sid: 'DenyUnEncryptedObjectUploads',
-        },
+          "Sid": "DenyUnEncryptedObjectUploads"
+        }
       ],
-      Version: '2012-10-17',
-    },
+      "Version": "2012-10-17"
+    }
   });
 });
