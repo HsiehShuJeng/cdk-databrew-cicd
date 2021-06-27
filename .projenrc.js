@@ -1,5 +1,4 @@
 const { AwsCdkConstructLibrary, NpmAccess, ProjectType } = require('projen');
-const { Mergify } = require('projen/lib/github');
 
 const project = new AwsCdkConstructLibrary({
   author: 'scott.hsieh',
@@ -53,7 +52,6 @@ const project = new AwsCdkConstructLibrary({
   npmAccess: NpmAccess.PUBLIC,
 
   mergify: true,
-  docgen: true,
   eslint: true,
   dependabot: true,
 
@@ -61,7 +59,6 @@ const project = new AwsCdkConstructLibrary({
 
   // publish to npm
   releaseToNpm: true,
-  releaseBranches: ['main'],
   releaseWorkflow: true,
   releaseEveryCommit: true, //will run the release GitHub Action on each push to the defined
 

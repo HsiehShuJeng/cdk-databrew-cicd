@@ -683,32 +683,32 @@ test('IamRole', () => {
 
   expect(SynthUtils.toCloudFormation(infraStack)).toCountResources('AWS::S3::BucketPolicy', 1);
   expect(SynthUtils.toCloudFormation(infraStack)).toHaveResourceLike('AWS::S3::BucketPolicy', {
-    'Bucket': {
-      'Ref': 'DataBrewCicdPipelineCodePipelineBucket8E660891'
+    Bucket: {
+      Ref: 'DataBrewCicdPipelineCodePipelineBucket8E660891',
     },
-    'PolicyDocument': {
-      'Statement': [
+    PolicyDocument: {
+      Statement: [
         {
-          'Action': [
+          Action: [
             's3:GetBucket*',
             's3:List*',
-            's3:DeleteObject*'
+            's3:DeleteObject*',
           ],
-          'Effect': 'Allow',
-          'Principal': {
-            'AWS': {
+          Effect: 'Allow',
+          Principal: {
+            AWS: {
               'Fn::GetAtt': [
                 'CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092',
-                'Arn'
-              ]
-            }
+                'Arn',
+              ],
+            },
           },
-          'Resource': [
+          Resource: [
             {
               'Fn::GetAtt': [
                 'DataBrewCicdPipelineCodePipelineBucket8E660891',
-                'Arn'
-              ]
+                'Arn',
+              ],
             },
             {
               'Fn::Join': [
@@ -717,42 +717,42 @@ test('IamRole', () => {
                   {
                     'Fn::GetAtt': [
                       'DataBrewCicdPipelineCodePipelineBucket8E660891',
-                      'Arn'
-                    ]
+                      'Arn',
+                    ],
                   },
-                  '/*'
-                ]
-              ]
-            }
-          ]
+                  '/*',
+                ],
+              ],
+            },
+          ],
         },
         {
-          'Action': 's3:PutObject',
-          'Condition': {
-            'StringNotEquals': {
-              's3:x-amz-server-side-encryption': 'aws:kms'
-            }
+          Action: 's3:PutObject',
+          Condition: {
+            StringNotEquals: {
+              's3:x-amz-server-side-encryption': 'aws:kms',
+            },
           },
-          'Effect': 'Deny',
-          'Principal': '*',
-          'Resource': {
+          Effect: 'Deny',
+          Principal: '*',
+          Resource: {
             'Fn::Join': [
               '',
               [
                 {
                   'Fn::GetAtt': [
                     'DataBrewCicdPipelineCodePipelineBucket8E660891',
-                    'Arn'
-                  ]
+                    'Arn',
+                  ],
                 },
-                '/*'
-              ]
-            ]
+                '/*',
+              ],
+            ],
           },
-          'Sid': 'DenyUnEncryptedObjectUploads'
-        }
+          Sid: 'DenyUnEncryptedObjectUploads',
+        },
       ],
-      'Version': '2012-10-17'
-    }
+      Version: '2012-10-17',
+    },
   });
 });

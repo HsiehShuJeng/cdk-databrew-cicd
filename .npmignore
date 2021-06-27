@@ -13,6 +13,7 @@
 .settings
 .venv
 .vscode/
+/.changelog.tmp.md
 /.eslintrc.json
 /.github
 /.idea
