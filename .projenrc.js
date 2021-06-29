@@ -21,13 +21,12 @@ const project = new AwsCdkConstructLibrary({
     twitter: 'fantasticHsieh',
   },
 
-  cdkVersion: '1.110.0',
+  cdkVersion: '1.110.1',
   defaultReleaseBranch: 'main',
   name: 'cdk-databrew-cicd',
   repositoryUrl: 'https://github.com/HsiehShuJeng/cdk-databrew-cicd.git',
-  projectName: 'cdk-databrew-cicd',
   projectType: ProjectType.LIB,
-  projenUpgradeSecret: 'PROJEN_UPGRADE_SECRET',
+
 
   cdkDependencies: [
     '@aws-cdk/core',
@@ -51,11 +50,12 @@ const project = new AwsCdkConstructLibrary({
 
   npmAccess: NpmAccess.PUBLIC,
 
-  mergify: true,
   eslint: true,
-  dependabot: true,
-
-  defaultReleaseBranch: 'main',
+  projenUpgradeSecret: 'PROJEN_UPGRADE_SECRET',
+  autoApproveOptions: {
+    secret: 'GITHUB_TOKEN',
+  },
+  depsUpgradeAutoMerge: true,
 
   // publish to npm
   releaseToNpm: true,
