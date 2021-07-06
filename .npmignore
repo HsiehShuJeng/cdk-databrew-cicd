@@ -13,7 +13,6 @@
 .settings
 .venv
 .vscode/
-/.changelog.tmp.md
 /.eslintrc.json
 /.github
 /.idea
@@ -22,6 +21,8 @@
 /.projenrc.js
 /.vscode
 /coverage
+/dist/changelog.md
+/dist/version.txt
 /src
 /test
 /test-reports/
