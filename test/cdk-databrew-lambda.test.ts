@@ -218,44 +218,25 @@ test('Lambda test', () => {
 
   expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::Lambda::Function', 3);
   expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
-    Role: {
-      'Fn::GetAtt': [
-        'PreProductionLambdaPreproductionFunctionRole725F0407',
-        'Arn',
-      ],
+    "FunctionName": "PreProd-DataBrew-Recipe-Deployer",
+    "Role": {
+      "Fn::GetAtt": [
+        "PreProductionLambdaPreproductionFunctionRole725F0407",
+        "Arn"
+      ]
     },
-    FunctionName: 'PreProd-DataBrew-Recipe-Deployer',
-    Handler: 'index.lambda_handler',
-    MemorySize: 128,
-    Runtime: 'python3.8',
-    Timeout: 20,
-    TracingConfig: {
-      Mode: 'Active',
+    "Description": "Read from latest commit and publish AWS Glue DataBrew recipe to pre-prod account",
+    "Environment": {
+      "Variables": {
+        "role": "PREPRODUCTION_IAM_ROLE_ARN"
+      }
     },
-  });
-  expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
-    Role: {
-      'Fn::GetAtt': [
-        'ProductionLambdaProductionFunctionRoleC7B3DEF1',
-        'Arn',
-      ],
-    },
-    Handler: 'index.lambda_handler',
-    MemorySize: 128,
-    Runtime: 'python3.8',
-    Timeout: 20,
-    TracingConfig: {
-      Mode: 'Active',
-    },
-  });
-  expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
-    Handler: 'index.handler',
-    Runtime: 'nodejs12.x',
-    Role: {
-      'Fn::GetAtt': [
-        'LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB',
-        'Arn',
-      ],
-    },
+    "Handler": "index.lambda_handler",
+    "MemorySize": 128,
+    "Runtime": "python3.8",
+    "Timeout": 20,
+    "TracingConfig": {
+      "Mode": "Active"
+    }
   });
 });
