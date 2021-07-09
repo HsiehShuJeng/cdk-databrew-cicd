@@ -45,7 +45,7 @@ jobs:
     container:
       image: jsii/superchain
   release_npm:
-    name: Release to NPM
+    name: Release to npm
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -59,9 +59,9 @@ jobs:
       - name: Release
         run: npx -p jsii-release@latest jsii-release-npm
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_DIST_TAG: latest
           NPM_REGISTRY: registry.npmjs.org
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     container:
       image: jsii/superchain
   release_maven:
@@ -88,7 +88,7 @@ jobs:
     container:
       image: jsii/superchain
   release_pypi:
-    name: Release to PyPi
+    name: Release to PyPI
     needs: release
     runs-on: ubuntu-latest
     permissions:
@@ -107,7 +107,7 @@ jobs:
     container:
       image: jsii/superchain
   release_nuget:
-    name: Release to Nuget
+    name: Release to NuGet
     needs: release
     runs-on: ubuntu-latest
     permissions:
