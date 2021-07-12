@@ -21,7 +21,7 @@ const project = new AwsCdkConstructLibrary({
     twitter: 'fantasticHsieh',
   },
 
-  cdkVersion: '1.111.0',
+  cdkVersion: '1.113.0',
   defaultReleaseBranch: 'main',
   name: 'cdk-databrew-cicd',
   repositoryUrl: 'https://github.com/HsiehShuJeng/cdk-databrew-cicd.git',
