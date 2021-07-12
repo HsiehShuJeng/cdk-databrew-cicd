@@ -734,7 +734,9 @@ test('IamRole', () => {
             },
           },
           Effect: 'Deny',
-          Principal: '*',
+          Principal: {
+            AWS: '*',
+          },
           Resource: {
             'Fn::Join': [
               '',
