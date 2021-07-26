@@ -1,5 +1,6 @@
 {
   "name": "cdk-databrew-cicd",
+  "description": "A construct for AWS Glue DataBrew wtih CICD",
   "repository": {
     "type": "git",
     "url": "https://github.com/HsiehShuJeng/cdk-databrew-cicd.git"

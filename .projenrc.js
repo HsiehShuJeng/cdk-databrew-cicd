@@ -4,6 +4,7 @@ const project = new AwsCdkConstructLibrary({
   author: 'scott.hsieh',
   authorName: 'Shu-Jeng Hsieh',
   authorAddress: 'https://fantasticsie.medium.com/',
+  description: 'A construct for AWS Glue DataBrew wtih CICD',
   keywords: [
     'aws',
     'cdk',
