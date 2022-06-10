@@ -24,6 +24,7 @@ const project = new projen.awscdk.AwsCdkConstructLibrary({
 
   cdkVersion: '2.27.0',
   defaultReleaseBranch: 'main',
+  majorVersion: 2,
   name: 'cdk-databrew-cicd',
   repositoryUrl: 'https://github.com/HsiehShuJeng/cdk-databrew-cicd.git',
   deps: [
