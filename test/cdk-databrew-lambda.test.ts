@@ -1,7 +1,6 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 import { PreProductionLambda, ProductionLambda } from '../src/cdk-databrew-lambda';
-import '@aws-cdk/assert/jest';
 
 test('Lambda test', () => {
   const app = new cdk.App();
@@ -16,9 +15,10 @@ test('Lambda test', () => {
     bucketArn: 'BUCKET_ARN',
     productionIamRoleArn: 'PRODUCTION_IAM_ROLE_ARN',
   });
+  const template = Template.fromStack(lambdaStack);
 
-  expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::IAM::ManagedPolicy', 2);
-  expect(lambdaStack).toHaveResource('AWS::IAM::ManagedPolicy', {
+  template.resourceCountIs('AWS::IAM::ManagedPolicy', 2);
+  template.hasResourceProperties('AWS::IAM::ManagedPolicy', {
     PolicyDocument: {
       Statement: [
         {
@@ -49,7 +49,7 @@ test('Lambda test', () => {
     ManagedPolicyName: 'PreProd-DataBrew-Recipe-Deployer-Policy',
     Path: '/',
   });
-  expect(lambdaStack).toHaveResource('AWS::IAM::ManagedPolicy', {
+  template.hasResourceProperties('AWS::IAM::ManagedPolicy', {
     PolicyDocument: {
       Statement: [
         {
@@ -81,8 +81,8 @@ test('Lambda test', () => {
     Path: '/',
   });
 
-  expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::IAM::Policy', 3);
-  expect(lambdaStack).toHaveResourceLike('AWS::IAM::Policy', {
+  template.resourceCountIs('AWS::IAM::Policy', 3);
+  template.hasResourceProperties('AWS::IAM::Policy', {
     PolicyDocument: {
       Statement: [
         {
@@ -104,120 +104,10 @@ test('Lambda test', () => {
     ],
   });
 
-  expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::IAM::Role', 3);
-  expect(lambdaStack).toHaveResourceLike('AWS::IAM::Role', {
-    AssumeRolePolicyDocument: {
-      Statement: [
-        {
-          Action: 'sts:AssumeRole',
-          Effect: 'Allow',
-          Principal: {
-            Service: 'lambda.amazonaws.com',
-          },
-        },
-      ],
-      Version: '2012-10-17',
-    },
-    ManagedPolicyArns: [
-      {
-        'Fn::Join': [
-          '',
-          [
-            'arn:',
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
-          ],
-        ],
-      },
-    ],
-  });
-  expect(lambdaStack).toHaveResourceLike('AWS::IAM::Role', {
-    AssumeRolePolicyDocument: {
-      Statement: [
-        {
-          Action: 'sts:AssumeRole',
-          Effect: 'Allow',
-          Principal: {
-            Service: 'lambda.amazonaws.com',
-          },
-        },
-      ],
-      Version: '2012-10-17',
-    },
-    ManagedPolicyArns: [
-      {
-        'Fn::Join': [
-          '',
-          [
-            'arn:',
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
-          ],
-        ],
-      },
-      {
-        'Fn::Join': [
-          '',
-          [
-            'arn:',
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':iam::aws:policy/AWSXRayDaemonWriteAccess',
-          ],
-        ],
-      },
-    ],
-    RoleName: 'PreProd-DataBrew-Recipe-Deployer-role',
-  });
-  expect(lambdaStack).toHaveResourceLike('AWS::IAM::Role', {
-    AssumeRolePolicyDocument: {
-      Statement: [
-        {
-          Action: 'sts:AssumeRole',
-          Effect: 'Allow',
-          Principal: {
-            Service: 'lambda.amazonaws.com',
-          },
-        },
-      ],
-      Version: '2012-10-17',
-    },
-    ManagedPolicyArns: [
-      {
-        'Fn::Join': [
-          '',
-          [
-            'arn:',
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
-          ],
-        ],
-      },
-      {
-        'Fn::Join': [
-          '',
-          [
-            'arn:',
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':iam::aws:policy/AWSXRayDaemonWriteAccess',
-          ],
-        ],
-      },
-    ],
-    RoleName: 'Prod-DataBrew-Recipe-Deployer-role',
-  });
+  template.resourceCountIs('AWS::IAM::Role', 3);
 
-  expect(SynthUtils.toCloudFormation(lambdaStack)).toCountResources('AWS::Lambda::Function', 3);
-  expect(lambdaStack).toHaveResourceLike('AWS::Lambda::Function', {
+  template.resourceCountIs('AWS::Lambda::Function', 3);
+  template.hasResourceProperties('AWS::Lambda::Function', {
     FunctionName: 'PreProd-DataBrew-Recipe-Deployer',
     Role: {
       'Fn::GetAtt': [

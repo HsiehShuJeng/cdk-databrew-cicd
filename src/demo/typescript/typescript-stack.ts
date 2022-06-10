@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import { DataBrewCodePipeline } from '../../cdk-databrew-cicd';
 
 class TypescriptStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const preproductionAccountId = 'PREPRODUCTION_ACCOUNT_ID';

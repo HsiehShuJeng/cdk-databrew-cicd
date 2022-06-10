@@ -1,7 +1,6 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 import { IamRole } from '../src/cdk-iam-roles';
-import '@aws-cdk/assert/jest';
 
 test('IAM role test', () => {
   const app = new cdk.App();
@@ -16,9 +15,11 @@ test('IAM role test', () => {
     accountID: '987654321',
   });
 
+  const template = Template.fromStack(stack);
 
-  expect(SynthUtils.toCloudFormation(stack)).toCountResources('AWS::IAM::Role', 2);
-  expect(stack).toHaveResourceLike('AWS::IAM::Role', {
+
+  template.resourceCountIs('AWS::IAM::Role', 2);
+  template.hasResourceProperties('AWS::IAM::Role', {
     AssumeRolePolicyDocument: {
       Statement: [
         {
@@ -43,7 +44,7 @@ test('IAM role test', () => {
       Version: '2012-10-17',
     },
   });
-  expect(stack).toHaveResourceLike('AWS::IAM::Role', {
+  template.hasResourceProperties('AWS::IAM::Role', {
     AssumeRolePolicyDocument: {
       Statement: [
         {

@@ -1,7 +1,8 @@
-import * as iam from '@aws-cdk/aws-iam';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as logs from '@aws-cdk/aws-logs';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import { Construct } from 'constructs';
 
 
 const functionScript = 'import os\r\nimport json\r\nimport zipfile\r\nimport boto3\r\nimport gzip\r\nfrom io import BytesIO\r\n\r\ndef get_clients():\r\n    s3_client = boto3.resource(\'s3\')\r\n    sts_connection = boto3.client(\'sts\')\r\n    cross_account = sts_connection.assume_role(RoleArn=os.environ[\'role\'],RoleSessionName=\"session\")\r\n    access_key = cross_account[\'Credentials\'][\'AccessKeyId\']\r\n    secrect_key = cross_account[\'Credentials\'][\'SecretAccessKey\']\r\n    session_token = cross_account[\'Credentials\'][\'SessionToken\']\r\n    databrew_client = boto3.client(\r\n        \'databrew\',\r\n        aws_access_key_id=access_key,\r\n        aws_secret_access_key=secrect_key,\r\n        aws_session_token=session_token,\r\n    )\r\n    return s3_client, databrew_client\r\n\r\ndef get_name_contents(event, s3_client):\r\n    s3_location = event[\'CodePipeline.job\'][\'data\'][\'inputArtifacts\'][0][\'location\'][\'s3Location\']\r\n    s3_bucket = s3_location[\'bucketName\']\r\n    s3_file = s3_location[\'objectKey\']\r\n    zip_obj = s3_client.Object(bucket_name=s3_bucket, key=s3_file)\r\n    # extracting compressed files\r\n    buffer = BytesIO(zip_obj.get()[\"Body\"].read())\r\n    file_name = \'\'\r\n    z = zipfile.ZipFile(buffer)\r\n    json_content = \'\'\r\n    for filename in z.namelist():\r\n        if filename.endswith(\'.json\'):\r\n            file_name = filename\r\n            with z.open(file_name) as content:\r\n                json_content = json.load(content)\r\n    return file_name.replace(\'.json\', \'\'), json_content\r\n\r\ndef lambda_handler(event, context):\r\n    codepipeline_client = boto3.client(\'codepipeline\')\r\n    job_id = event[\'CodePipeline.job\'][\'id\']\r\n    try:\r\n        # client creation\r\n        clients = get_clients()\r\n        s3_client = clients[0]\r\n        databrew_client = clients[1]\r\n        # getting file name and contents\r\n        name_contents = get_name_contents(event, s3_client)\r\n        recipe_lists = databrew_client.list_recipes(MaxResults=99)\r\n        if name_contents[0] not in (x[\'Name\'] for x in recipe_lists[\'Recipes\']):\r\n            databrew_client.create_recipe(Name=name_contents[0], Steps=name_contents[1])\r\n        # updating recipe\r\n        databrew_client.update_recipe(Description=\'updating recipe\',Name=name_contents[0],Steps= name_contents[1])\r\n        # publishing a recipe\r\n        databrew_client.publish_recipe(Description=\'publishing recipe\', Name=name_contents[0])\r\n        # Notify AWS CodePipeline of a successful job\r\n        codepipeline_client.put_job_success_result(jobId=job_id)\r\n    except Exception as e:\r\n        # Notifying pipeline of a failure\r\n        codepipeline_client.put_job_failure_result(jobId=job_id,failureDetails={\'type\': \'JobFailed\',\'message\': str(e)})';
@@ -29,7 +30,7 @@ export interface PreProductionLambdaProps {
   readonly functionName?: string;
 }
 
-export class PreProductionLambda extends cdk.Construct {
+export class PreProductionLambda extends Construct {
   /**
      * The name of the IAM role for the pre-produciton Lambda function.
      */
@@ -42,7 +43,7 @@ export class PreProductionLambda extends cdk.Construct {
      * The representative of Lambda function for the pre-production account.
      */
   readonly function: lambda.IFunction;
-  constructor(scope: cdk.Construct, name: string, props: PreProductionLambdaProps) {
+  constructor(scope: Construct, name: string, props: PreProductionLambdaProps) {
     super(scope, name);
     this.roleName = props.roleName ?? 'PreProd-DataBrew-Recipe-Deployer-role';
     this.functionName = props.functionName ?? 'PreProd-DataBrew-Recipe-Deployer';
@@ -125,7 +126,7 @@ export interface ProductionLambdaProps {
 }
 
 
-export class ProductionLambda extends cdk.Construct {
+export class ProductionLambda extends Construct {
   /**
      * The name of the IAM role for the produciton Lambda function.
      */
@@ -138,7 +139,7 @@ export class ProductionLambda extends cdk.Construct {
      * The representative of Lambda function for the production account.
      */
   readonly function: lambda.IFunction;
-  constructor(scope: cdk.Construct, name: string, props: ProductionLambdaProps) {
+  constructor(scope: Construct, name: string, props: ProductionLambdaProps) {
     super(scope, name);
     this.roleName = props.roleName ?? 'Prod-DataBrew-Recipe-Deployer-role';
     this.functionName = props.functionName ?? 'Prod-DataBrew-Recipe-Deployer';
@@ -222,7 +223,7 @@ export interface FirstCommitHandlerProps {
   readonly functionName?: string;
 }
 
-export class FirstCommitHandler extends cdk.Construct {
+export class FirstCommitHandler extends Construct {
   /**
    * The name of the IAM role for the Lambda function which deals with first commit via AWS CodeCommit.
    */
@@ -235,7 +236,7 @@ export class FirstCommitHandler extends cdk.Construct {
    * The representative of Lambda function which deals with first commit via AWS CodeCommit.
    */
   readonly function: lambda.IFunction;
-  constructor(scope: cdk.Construct, name: string, props: FirstCommitHandlerProps) {
+  constructor(scope: Construct, name: string, props: FirstCommitHandlerProps) {
     super(scope, name);
     this.roleName = props.roleName ?? 'LambdaForInitialCommitRole';
     this.functionName = props.functionName ?? 'FirstCommitHandler';

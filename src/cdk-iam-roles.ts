@@ -1,5 +1,5 @@
-import * as iam from '@aws-cdk/aws-iam';
-import * as cdk from '@aws-cdk/core';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 
 export interface IamRoleProps {
   /**
@@ -22,12 +22,12 @@ export interface IamRoleProps {
  *
  * Defines an IAM role for pre-production and production AWS accounts.
  */
-export class IamRole extends cdk.Construct {
+export class IamRole extends Construct {
   /**
      * The ARN of the IAM role for pre-production or production.
      */
   readonly roleArn: string;
-  constructor(scope: cdk.Construct, name: string, props: IamRoleProps) {
+  constructor(scope: Construct, name: string, props: IamRoleProps) {
     super(scope, name);
 
     if (props.environment !== 'preproduction' && props.environment !== 'production') {

@@ -31,8 +31,8 @@ Name|Description
 
 
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -43,7 +43,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new CodePipelineIamRole(scope: Construct, name: string, props: CodePipelineIamRoleProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[CodePipelineIamRoleProps](#cdk-databrew-cicd-codepipelineiamroleprops)</code>)  *No description*
   * **bucketArn** (<code>string</code>)  The ARN of the S3 bucket where you store your artifacts. 
@@ -58,7 +58,7 @@ new CodePipelineIamRole(scope: Construct, name: string, props: CodePipelineIamRo
 
 Name | Type | Description 
 -----|------|-------------
-**role** | <code>[Role](#aws-cdk-aws-iam-role)</code> | The representative of the IAM role for the CodePipeline CICD pipeline.
+**role** | <code>[aws_iam.Role](#aws-cdk-lib-aws-iam-role)</code> | The representative of the IAM role for the CodePipeline CICD pipeline.
 **roleArn** | <code>string</code> | The ARN of the IAM role for the CodePipeline CICD pipeline.
 
 
@@ -67,8 +67,8 @@ Name | Type | Description
 
 
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -79,7 +79,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new DataBrewCodePipeline(scope: Construct, name: string, props: DataBrewCodePipelineProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[DataBrewCodePipelineProps](#cdk-databrew-cicd-databrewcodepipelineprops)</code>)  *No description*
   * **preproductionIamRoleArn** (<code>string</code>)  The ARN of the IAM role in the pre-production account. 
@@ -112,8 +112,8 @@ Name | Type | Description
 
 
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -124,7 +124,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new FirstCommitHandler(scope: Construct, name: string, props: FirstCommitHandlerProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[FirstCommitHandlerProps](#cdk-databrew-cicd-firstcommithandlerprops)</code>)  *No description*
   * **branchName** (<code>string</code>)  The branch name used in the CodeCommit repo. 
@@ -140,7 +140,7 @@ new FirstCommitHandler(scope: Construct, name: string, props: FirstCommitHandler
 
 Name | Type | Description 
 -----|------|-------------
-**function** | <code>[IFunction](#aws-cdk-aws-lambda-ifunction)</code> | The representative of Lambda function which deals with first commit via AWS CodeCommit.
+**function** | <code>[aws_lambda.IFunction](#aws-cdk-lib-aws-lambda-ifunction)</code> | The representative of Lambda function which deals with first commit via AWS CodeCommit.
 **functionName** | <code>string</code> | The name of the Lambda function which deals with first commit via AWS CodeCommit.
 **roleName** | <code>string</code> | The name of the IAM role for the Lambda function which deals with first commit via AWS CodeCommit.
 
@@ -152,8 +152,8 @@ IAM Role.
 
 Defines an IAM role for pre-production and production AWS accounts.
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -164,7 +164,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new IamRole(scope: Construct, name: string, props: IamRoleProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[IamRoleProps](#cdk-databrew-cicd-iamroleprops)</code>)  *No description*
   * **accountID** (<code>string</code>)  The ID of your infrastructure account. 
@@ -186,8 +186,8 @@ Name | Type | Description
 
 
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -198,7 +198,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new InfraIamRole(scope: Construct, name: string, props: InfraIamRoleProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[InfraIamRoleProps](#cdk-databrew-cicd-infraiamroleprops)</code>)  *No description*
   * **roleName** (<code>string</code>)  The role name for the infrastructure account. __*Default*__: 'CrossAccountRepositoryContributorRole'
@@ -218,8 +218,8 @@ Name | Type | Description
 
 
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -230,7 +230,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new PreProductionLambda(scope: Construct, name: string, props: PreProductionLambdaProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[PreProductionLambdaProps](#cdk-databrew-cicd-preproductionlambdaprops)</code>)  *No description*
   * **bucketArn** (<code>string</code>)  The ARN of the S3 bucket for the DataBrew CICD pipeline. 
@@ -245,7 +245,7 @@ new PreProductionLambda(scope: Construct, name: string, props: PreProductionLamb
 
 Name | Type | Description 
 -----|------|-------------
-**function** | <code>[IFunction](#aws-cdk-aws-lambda-ifunction)</code> | The representative of Lambda function for the pre-production account.
+**function** | <code>[aws_lambda.IFunction](#aws-cdk-lib-aws-lambda-ifunction)</code> | The representative of Lambda function for the pre-production account.
 **functionName** | <code>string</code> | The Lambda funciton name for the pre-production account.
 **roleName** | <code>string</code> | The name of the IAM role for the pre-produciton Lambda function.
 
@@ -255,8 +255,8 @@ Name | Type | Description
 
 
 
-__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
-__Extends__: [Construct](#aws-cdk-core-construct)
+__Implements__: [IConstruct](#constructs-iconstruct), [IDependable](#constructs-idependable)
+__Extends__: [Construct](#constructs-construct)
 
 ### Initializer
 
@@ -267,7 +267,7 @@ __Extends__: [Construct](#aws-cdk-core-construct)
 new ProductionLambda(scope: Construct, name: string, props: ProductionLambdaProps)
 ```
 
-* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **scope** (<code>[Construct](#constructs-construct)</code>)  *No description*
 * **name** (<code>string</code>)  *No description*
 * **props** (<code>[ProductionLambdaProps](#cdk-databrew-cicd-productionlambdaprops)</code>)  *No description*
   * **bucketArn** (<code>string</code>)  The ARN of the S3 bucket for the DataBrew CICD pipeline. 
@@ -282,7 +282,7 @@ new ProductionLambda(scope: Construct, name: string, props: ProductionLambdaProp
 
 Name | Type | Description 
 -----|------|-------------
-**function** | <code>[IFunction](#aws-cdk-aws-lambda-ifunction)</code> | The representative of Lambda function for the production account.
+**function** | <code>[aws_lambda.IFunction](#aws-cdk-lib-aws-lambda-ifunction)</code> | The representative of Lambda function for the production account.
 **functionName** | <code>string</code> | The Lambda funciton name for the production account.
 **roleName** | <code>string</code> | The name of the IAM role for the produciton Lambda function.
 

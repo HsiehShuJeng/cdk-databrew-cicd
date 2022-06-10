@@ -1,11 +1,12 @@
-import * as codecommit from '@aws-cdk/aws-codecommit';
-import * as codepipeline from '@aws-cdk/aws-codepipeline';
-import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
-import * as iam from '@aws-cdk/aws-iam';
-import * as logs from '@aws-cdk/aws-logs';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as cdk from '@aws-cdk/core';
-import * as cr from '@aws-cdk/custom-resources';
+import * as cdk from 'aws-cdk-lib';
+import * as codecommit from 'aws-cdk-lib/aws-codecommit';
+import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
+import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as cr from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
 import { FirstCommitHandler, PreProductionLambda, ProductionLambda } from './cdk-databrew-lambda';
 
 export interface DataBrewCodePipelineProps {
@@ -48,7 +49,7 @@ export interface DataBrewCodePipelineProps {
      */
   readonly firstStageArtifactName?: string;
 }
-export class DataBrewCodePipeline extends cdk.Construct {
+export class DataBrewCodePipeline extends Construct {
   /**
      * The ARN of the S3 bucket for the CodePipeline DataBrew CICD pipeline.
      */
@@ -81,7 +82,7 @@ export class DataBrewCodePipeline extends cdk.Construct {
      * The ARN of the DataBrew CICD pipeline.
      */
   readonly codePipelineArn: string;
-  constructor(scope: cdk.Construct, name: string, props: DataBrewCodePipelineProps) {
+  constructor(scope: Construct, name: string, props: DataBrewCodePipelineProps) {
     super(scope, name);
     this.firstStageArtifactName = props.firstStageArtifactName ?? 'SourceOutput';
     this.repoName = props.repoName ?? 'DataBrew-Recipes-Repo';
@@ -203,7 +204,7 @@ export class DataBrewCodePipeline extends cdk.Construct {
       role: role,
     });
     return sourceAction;
-  }
+  };
 }
 
 export interface InfraIamRoleProps {
@@ -214,12 +215,12 @@ export interface InfraIamRoleProps {
      */
   readonly roleName?: string;
 }
-export class InfraIamRole extends cdk.Construct {
+export class InfraIamRole extends Construct {
   /**
      * The ARN of the IAM role for the infrastructure account.
      */
   readonly roleArn: string;
-  constructor(scope: cdk.Construct, name: string, props: InfraIamRoleProps) {
+  constructor(scope: Construct, name: string, props: InfraIamRoleProps) {
     super(scope, name);
 
     const role = new iam.Role(this, 'InfraIamRole', {
@@ -282,7 +283,7 @@ export interface CodePipelineIamRoleProps {
   readonly roleName?: string;
 }
 
-export class CodePipelineIamRole extends cdk.Construct {
+export class CodePipelineIamRole extends Construct {
   /**
      * The ARN of the IAM role for the CodePipeline CICD pipeline.
      */
@@ -291,7 +292,7 @@ export class CodePipelineIamRole extends cdk.Construct {
      * The representative of the IAM role for the CodePipeline CICD pipeline.
      */
   readonly role: iam.Role;
-  constructor(scope: cdk.Construct, name: string, props: CodePipelineIamRoleProps) {
+  constructor(scope: Construct, name: string, props: CodePipelineIamRoleProps) {
     super(scope, name);
     const role = new iam.Role(this, 'CodePipelineIamRole', {
       assumedBy: new iam.CompositePrincipal(

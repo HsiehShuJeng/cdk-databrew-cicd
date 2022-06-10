@@ -1,6 +1,6 @@
-const { AwsCdkConstructLibrary, NpmAccess, ProjectType } = require('projen');
+const projen = require('projen');
 
-const project = new AwsCdkConstructLibrary({
+const project = new projen.awscdk.AwsCdkConstructLibrary({
   author: 'scott.hsieh',
   authorName: 'Shu-Jeng Hsieh',
   authorAddress: 'https://fantasticsie.medium.com/',
@@ -22,66 +22,51 @@ const project = new AwsCdkConstructLibrary({
     twitter: 'fantasticHsieh',
   },
 
-  cdkVersion: '1.113.0',
+  cdkVersion: '2.27.0',
   defaultReleaseBranch: 'main',
   name: 'cdk-databrew-cicd',
   repositoryUrl: 'https://github.com/HsiehShuJeng/cdk-databrew-cicd.git',
-  projectType: ProjectType.LIB,
-
-
-  cdkDependencies: [
-    '@aws-cdk/core',
-    '@aws-cdk/aws-iam',
-    '@aws-cdk/aws-logs',
-    '@aws-cdk/aws-lambda',
-    '@aws-cdk/aws-codecommit',
-    '@aws-cdk/aws-codepipeline',
-    '@aws-cdk/aws-codepipeline-actions',
-    '@aws-cdk/custom-resources',
-    '@aws-cdk/aws-s3',
+  deps: [
+    'aws-cdk-lib',
+    'constructs@^10.0.5',
   ],
-  cdkAssert: true,
-  cdkVersionPinning: false, // see https://www.matthewbonig.com/2021/04/06/automating-construct-publishing/
   devDeps: [
+    'aws-cdk-lib',
+    'constructs@^10.0.5',
     'esbuild',
     'source-map-support',
   ],
-  tsconfig: { include: ['src/**/*.ts', 'src/**.*.py'], compilerOptions: {} },
-
-
-  npmAccess: NpmAccess.PUBLIC,
-
+  peerDeps: [
+    'aws-cdk-lib',
+    'constructs@^10.0.5',
+  ],
   eslint: true,
-  projenUpgradeSecret: 'PROJEN_UPGRADE_SECRET',
+  dependabotOptions: {
+    workflowOptions: {
+      labels: ['auto-approve', 'auto-merge'],
+    },
+  },
   autoApproveOptions: {
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['HsiehShuJeng'],
   },
-  depsUpgradeAutoMerge: true,
-
-  // publish to npm
   releaseToNpm: true,
-  releaseWorkflow: true,
-  releaseEveryCommit: true, //will run the release GitHub Action on each push to the defined
-
-  // publish to PyPi
   publishToPypi: {
     distName: 'cdk_databrew_cicd',
     module: 'cdk_databrew_cicd',
   },
-
-  // publish to Maven
   publishToMaven: {
     mavenGroupId: 'io.github.hsiehshujeng',
     mavenArtifactId: 'cdk-databrew-cicd',
     javaPackage: 'io.github.hsiehshujeng.cdk.databrew.cicd',
     mavenEndpoint: 'https://s01.oss.sonatype.org', // check https://central.sonatype.org/publish/release/#login-into-ossrh
   },
-
-  // publish to dotnet
   publishToNuget: {
     dotNetNamespace: 'ScottHsieh.Cdk',
     packageId: 'Databrew.Cicd',
+  },
+  publishToGo: {
+    moduleName: 'github.com/HsiehShuJeng/cdk-databrew-cicd-go',
   },
 });
 
@@ -89,49 +74,6 @@ project.eslint.addOverride({
   files: ['*.ts'],
   rules: { '@typescript-eslint/no-require-imports': 0 },
 });
-
-// const mergifyRules = [
-//   {
-//     name: 'Automatic merge on approval and successful build',
-//     actions: {
-//       merge: {
-//         method: 'squash',
-//         commit_message: 'title+body',
-//         strict: 'smart',
-//         strict_method: 'merge',
-//       },
-//       delete_head_branch: {},
-//     },
-//     conditions: [
-//       '#approved-reviews-by>=1',
-//       'status-success=build',
-//       '-title~=(WIP|wip)',
-//       '-label~=(blocked|do-not-merge)',
-//     ],
-//   },
-//   {
-//     name: 'Automatic merge PRs with auto-merge label upon successful build',
-//     actions: {
-//       merge: {
-//         method: 'squash',
-//         commit_message: 'title+body',
-//         strict: 'smart',
-//         strict_method: 'merge',
-//       },
-//       delete_head_branch: {},
-//     },
-//     conditions: [
-//       'label=auto-merge',
-//       'status-success=build',
-//       '-title~=(WIP|wip)',
-//       '-label~=(blocked|do-not-merge)',
-//     ],d
-//   },
-// ];
-
-// new Mergify(project.github, {
-//   rules: mergifyRules,
-// });
 
 const mavenExclusions = ['public.pem', 'private.pem'];
 const pythonDemoExclustions = [
