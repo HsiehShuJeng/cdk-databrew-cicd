@@ -47,10 +47,12 @@ const project = new projen.awscdk.AwsCdkConstructLibrary({
       labels: ['auto-approve', 'auto-merge'],
     },
   },
+  autoApproveUpgrades: true,
   autoApproveOptions: {
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['HsiehShuJeng'],
   },
+  minNodeVersion: '14.17.0',
   releaseToNpm: true,
   publishToPypi: {
     distName: 'cdk_databrew_cicd',
@@ -68,6 +70,9 @@ const project = new projen.awscdk.AwsCdkConstructLibrary({
   },
   publishToGo: {
     moduleName: 'github.com/HsiehShuJeng/cdk-databrew-cicd-go',
+  },
+  depsUpgradeOptions: {
+    exclude: ['yaml'],
   },
 });
 
