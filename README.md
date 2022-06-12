@@ -1,6 +1,10 @@
 # cdk-databrew-cicd
 This construct creates a **CodePipeline** pipeline where users can push a **DataBrew** recipe into the **CodeCommit** repository and the recipe will be pushed to a pre-production AWS account and a production AWS account by order automatically.  
 
+| npm (JS/TS) | PyPI (Python) | Maven (Java) | Go | NuGet |
+| --- | --- | --- | --- | --- |
+| [Link](https://www.npmjs.com/package/cdk-databrew-cicd) | [Link](https://pypi.org/project/cdk_databrew_cicd/) | [Link](https://search.maven.org/artifact/io.github.hsiehshujeng/cdk-databrew-cicd) | [Link](https://github.com/HsiehShuJeng/cdk-databrew-cicd-go) | [Link](https://www.nuget.org/packages/Databrew.Cicd/) |  
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-green)](https://opensource.org/licenses/Apache-2.0) [![Release](https://github.com/HsiehShuJeng/cdk-databrew-cicd/workflows/Release/badge.svg)](https://github.com/HsiehShuJeng/cdk-databrew-cicd/actions/workflows/release.yml) [![npm downloads](https://img.shields.io/npm/dt/cdk-databrew-cicd?label=npm%20downloads&style=plastic)](https://img.shields.io/npm/dt/cdk-databrew-cicd?label=npm%20downloads&style=plastic) [![pypi downloads](https://img.shields.io/pypi/dm/cdk-databrew-cicd?label=pypi%20downloads&style=plastic)](https://img.shields.io/pypi/dm/cdk-databrew-cicd?label=pypi%20downloads&style=plastic) [![NuGet downloads](https://img.shields.io/nuget/dt/Databrew.Cicd?label=NuGet%20downloads&style=plastic)](https://img.shields.io/nuget/dt/Databrew.Cicd?label=NuGet%20downloads&style=plastic) [![repo languages](https://img.shields.io/github/languages/count/HsiehShuJeng/cdk-databrew-cicd?label=repo%20languages&style=plastic)](https://img.shields.io/github/languages/count/HsiehShuJeng/cdk-databrew-cicd?label=repo%20languages&style=plastic)  
 
 # Table of Contents  
