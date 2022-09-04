@@ -110,4 +110,5 @@ project.npmignore.exclude(...pythonDemoExclustions);
 project.gitignore.exclude(...pythonDemoExclustions);
 project.npmignore.exclude(...javaDemoExclustions);
 project.gitignore.exclude(...javaDemoExclustions);
+project.package.addPackageResolutions('got@12.3.0');
 project.synth();
