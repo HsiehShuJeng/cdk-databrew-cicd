@@ -102,13 +102,24 @@ const javaDemoExclustions = [
   '*.iml',
 ];
 const commonExclusions = ['cdk.context.json', 'yarn-error.log', 'cdk.out', '.cdk.staging', '.DS_Store'];
-project.npmignore.exclude(...commonExclusions);
-project.gitignore.exclude(...commonExclusions);
-project.npmignore.exclude(...mavenExclusions);
-project.gitignore.exclude(...mavenExclusions);
-project.npmignore.exclude(...pythonDemoExclustions);
-project.gitignore.exclude(...pythonDemoExclustions);
-project.npmignore.exclude(...javaDemoExclustions);
-project.gitignore.exclude(...javaDemoExclustions);
-project.package.addPackageResolutions('got@12.3.0');
+const exclusionLists = [
+  commonExclusions,
+  mavenExclusions,
+  pythonDemoExclustions,
+  javaDemoExclustions,
+];
+excludeFilesFrom(project, exclusionLists);
 project.synth();
+
+/**
+ * Exclude files from the project's .npmignore and .gitignore.
+ *
+ * @param {Object} pjObject - The project object to apply the exclusions.
+ * @param {Array<Array<string>>} exclusionList - An array of arrays, where each inner array contains a list of file patterns to exclude.
+ */
+function excludeFilesFrom(pjObject, exclusionList) {
+  for (const exclusions of exclusionList) {
+    pjObject.npmignore.exclude(...exclusions);
+    pjObject.gitignore.exclude(...exclusions);
+  }
+}
