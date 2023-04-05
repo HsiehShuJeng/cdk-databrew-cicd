@@ -7,7 +7,7 @@
     },
     {
       "name": "@types/node",
-      "version": "^14",
+      "version": "^16",
       "type": "build"
     },
     {
@@ -112,11 +112,6 @@
     {
       "name": "@types/prettier",
       "version": "2.6.0",
-      "type": "override"
-    },
-    {
-      "name": "got",
-      "version": "12.3.0",
       "type": "override"
     },
     {

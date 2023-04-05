@@ -123,7 +123,7 @@ test('Lambda test', () => {
     },
     Handler: 'index.lambda_handler',
     MemorySize: 128,
-    Runtime: 'python3.8',
+    Runtime: 'python3.9',
     Timeout: 20,
     TracingConfig: {
       Mode: 'Active',
