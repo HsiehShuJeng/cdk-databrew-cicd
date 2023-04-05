@@ -134,7 +134,7 @@ $ mvn package
 <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <cdk.version>2.37.1</cdk.version>
-      <constrcut.verion>2.0.63</constrcut.verion>
+      <constrcut.verion>2.0.109</constrcut.verion>
       <junit.version>5.7.1</junit.version>
 </properties>
  .
