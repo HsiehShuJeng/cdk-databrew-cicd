@@ -52,7 +52,6 @@ const project = new projen.awscdk.AwsCdkConstructLibrary({
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['HsiehShuJeng'],
   },
-  minNodeVersion: '14.17.0',
   releaseToNpm: true,
   publishToPypi: {
     distName: 'cdk_databrew_cicd',

@@ -15,6 +15,7 @@ This construct creates a **CodePipeline** pipeline where users can push a **Data
   - [Python](#python)  
   - [Java](#java)  
   - [C#](#c)  
+  - [Go](#go)
 - [Some Efforts after Stack Creation](#some-efforts-after-stack-creation)  
 - [How Successful Commits Look Like](#how-successful-commits-look-like)  
 
