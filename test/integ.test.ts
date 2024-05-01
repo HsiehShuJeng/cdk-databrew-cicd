@@ -1,5 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { Template } from 'aws-cdk-lib/assertions';
+import { Match, Template } from 'aws-cdk-lib/assertions';
 import { DataBrewCodePipeline } from '../src/cdk-databrew-cicd';
 
 test('IamRole', () => {
@@ -96,7 +96,13 @@ test('IamRole', () => {
   });
 
   template.resourceCountIs('AWS::CodePipeline::Pipeline', 1);
-  template.hasResourceProperties('AWS::CodePipeline::Pipeline', {
+  template.hasResourceProperties('AWS::CodePipeline::Pipeline', Match.objectLike({
+    ArtifactStore: {
+      Location: {
+        Ref: Match.stringLikeRegexp('DataBrewCicdPipelineCodePipelineBucket'),
+      },
+      Type: 'S3',
+    },
     Name: 'DataBrew-Recipe-Application',
     RoleArn: {
       'Fn::GetAtt': [
@@ -155,6 +161,11 @@ test('IamRole', () => {
                 Ref: 'DataBrewCicdPipelinePreProductionLambdaPreProductionFunction28B8FA05',
               },
             },
+            InputArtifacts: [
+              {
+                Name: 'SourceOutput',
+              },
+            ],
             Name: 'PreProd-DeployRecipe',
             RoleArn: {
               'Fn::GetAtt': [
@@ -181,6 +192,11 @@ test('IamRole', () => {
                 Ref: 'DataBrewCicdPipelineProductionLambdaProductionFunctionB7DE098C',
               },
             },
+            InputArtifacts: [
+              {
+                Name: 'SourceOutput',
+              },
+            ],
             Name: 'Prod-DeployRecipe',
             RoleArn: {
               'Fn::GetAtt': [
@@ -194,13 +210,7 @@ test('IamRole', () => {
         Name: 'Prod-DeployRecipe',
       },
     ],
-    ArtifactStore: {
-      Location: {
-        Ref: 'DataBrewCicdPipelineCodePipelineBucket8E660891',
-      },
-      Type: 'S3',
-    },
-  });
+  }));
 
   template.resourceCountIs('AWS::S3::Bucket', 1);
   template.hasResourceProperties('AWS::S3::Bucket', {
@@ -208,7 +218,7 @@ test('IamRole', () => {
   });
 
   template.resourceCountIs('AWS::S3::BucketPolicy', 1);
-  template.hasResourceProperties('AWS::S3::BucketPolicy', {
+  template.hasResourceProperties('AWS::S3::BucketPolicy', Match.objectLike({
     Bucket: {
       Ref: 'DataBrewCicdPipelineCodePipelineBucket8E660891',
     },
@@ -216,6 +226,7 @@ test('IamRole', () => {
       Statement: [
         {
           Action: [
+            's3:PutBucketPolicy',
             's3:GetBucket*',
             's3:List*',
             's3:DeleteObject*',
@@ -282,5 +293,5 @@ test('IamRole', () => {
       ],
       Version: '2012-10-17',
     },
-  });
+  }));
 });
