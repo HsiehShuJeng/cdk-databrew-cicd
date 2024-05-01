@@ -38,7 +38,6 @@ const project = new projen.awscdk.AwsCdkConstructLibrary({
     'source-map-support',
   ],
   jsiiVersion: '5.4.x',
-  jsiiReleaseVersion: '5.4.x',
   peerDeps: [
     'aws-cdk-lib',
     'constructs@^10.0.5',
