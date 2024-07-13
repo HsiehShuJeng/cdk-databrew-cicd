@@ -25,7 +25,7 @@ This construct creates a **CodePipeline** pipeline where users can push a **Data
 
 # Introduction  
 The architecture was introduced by **Romi Boimer** and **Gaurav Wadhawan** and was posted on the AWS Blog as [*Set up CI/CD pipelines for AWS Glue DataBrew using AWS Developer Tools*](https://aws.amazon.com/tw/blogs/big-data/set-up-ci-cd-pipelines-for-aws-glue-databrew-using-aws-developer-tools/).  
-I converted the architecture into a CDK construct for 4 programming languages. Before applying the AWS construct, make sure you've set up a proper IAM role for the pre-production and production AWS accounts. You could achieve it either by creating manually or creating through a custom construct in this library.   
+I converted the architecture into a CDK construct for 5 programming languages. Before applying the AWS construct, make sure you've set up a proper IAM role for the pre-production and production AWS accounts. You could achieve it either by creating manually or creating through a custom construct in this library.   
 ```typescript
 import { IamRole } from 'cdk-databrew-cicd';
 
